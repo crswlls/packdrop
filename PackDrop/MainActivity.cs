@@ -1,13 +1,16 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
+using GalaSoft.MvvmLight.Views;
+using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Practices.ServiceLocation;
 
 namespace PackDrop
 {
     [Activity (Label = "PackDrop", MainLauncher = true, Icon = "@mipmap/icon")]
-    public class MainActivity : Activity
+    public class MainActivity : ActivityBase, Android.Views.View.IOnClickListener
     {
-        int count = 1;
+        private static bool _initialised;
 
         protected override void OnCreate (Bundle savedInstanceState)
         {
@@ -18,11 +21,26 @@ namespace PackDrop
 
             // Get our button from the layout resource,
             // and attach an event to it
-            Button button = FindViewById<Button> (Resource.Id.myButton);
+            var layout = FindViewById<LinearLayout> (Resource.Id.mainLayout);
             
-            button.Click += delegate {
-                button.Text = string.Format ("{0} clicks!", count++);
-            };
+            layout.SetOnClickListener (this);
+
+            if (!_initialised)
+            {
+                _initialised = true;
+                ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+
+                var nav = new NavigationService();
+                nav.Configure(nameof(InGameActivity), typeof(InGameActivity));
+
+                SimpleIoc.Default.Register<INavigationService>(() => nav);
+            }
+        }
+
+        public void OnClick (Android.Views.View v)
+        {
+            var nav = ServiceLocator.Current.GetInstance<INavigationService>();
+            nav.NavigateTo(nameof(InGameActivity));
         }
     }
 }
