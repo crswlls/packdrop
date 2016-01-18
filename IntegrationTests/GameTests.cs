@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using GalaSoft.MvvmLight.Views;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace IntegrationTests
 {
@@ -20,10 +21,10 @@ namespace IntegrationTests
             SetupHelper.Locator.InGameVm.Initialise();
 
             // WHEN: Time ticks by
-            // TODO: Simulate passing of time
+            SetupHelper.GameTimer.DoTick();
 
             // THEN: I see artwork falling
-            Assert.AreEqual(100, SetupHelper.Locator.InGameVm.YPosition);
+            Assert.AreEqual(1, SetupHelper.Locator.InGameVm.YPosition);
 
         }
     }

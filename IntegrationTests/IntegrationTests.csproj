@@ -49,9 +49,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test.cs" />
     <Compile Include="SetupHelper.cs" />
     <Compile Include="Stubs\NavigationServiceStub.cs" />
+    <Compile Include="Stubs\GameTimerStub.cs" />
+    <Compile Include="GameTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -61,6 +62,10 @@
     <ProjectReference Include="..\ViewModels\ViewModels.csproj">
       <Project>{1A612AC8-3B82-4957-B5D7-4CB7801FBBF7}</Project>
       <Name>ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameplayContext\GameplayContext.csproj">
+      <Project>{D1917ADA-CBAA-4C54-A927-70C0B831AAF4}</Project>
+      <Name>GameplayContext</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

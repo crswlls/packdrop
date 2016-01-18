@@ -1,6 +1,7 @@
 ﻿using ViewModels;
 using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Ioc;
+using GameplayContext;
 
 namespace PackDrop
 {
@@ -17,7 +18,9 @@ namespace PackDrop
                     var nav = new NavigationService ();
                     nav.Configure(nameof(InGameViewModel), typeof(InGameActivity));
 
+                    SimpleIoc.Default.Register<IGameTimer, GameTimer>();
                     SimpleIoc.Default.Register<INavigationService> (() => nav);
+                    SimpleIoc.Default.Register<IGame, Game> ();
                     SimpleIoc.Default.Register<IDialogService, DialogService> ();
 
                     _locator = new ViewModelLocator ();

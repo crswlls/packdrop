@@ -1,11 +1,18 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
+using GameplayContext;
 
 namespace ViewModels
 {
     public class InGameViewModel : ViewModelBase
     {
-        private int _yPos = 20;
+        private int _yPos = 0;
+        private IGame _game;
+
+        public InGameViewModel(IGame game)
+        {
+            _game = game;
+        }
 
         public int YPosition
         {
@@ -24,7 +31,13 @@ namespace ViewModels
 
         public void Initialise()
         {
-            YPosition = 200;
+            _game.GameChanged += OnGameChanged;
+            _game.StartGame();
+        }
+
+        private void OnGameChanged(object sender, EventArgs e)
+        {
+            YPosition = _game.GetColumn(0)[0].YPos;
         }
     }
 }
