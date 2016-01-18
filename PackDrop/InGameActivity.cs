@@ -14,13 +14,14 @@ namespace PackDrop
     {
         private InGameViewModel Vm
         {
-            get {
+            get
+            {
                 return App.Locator.InGameVm;
 
             }
         }
 
-        protected override async void OnCreate (Bundle savedInstanceState)
+        protected override void OnCreate (Bundle savedInstanceState)
         {
             base.OnCreate (savedInstanceState);
             SetContentView (Resource.Layout.InGame);
