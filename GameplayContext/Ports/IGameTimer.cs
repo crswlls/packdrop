@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace GameplayContext
+namespace GameplayContext.Ports
 {
     public interface IGameTimer
     {
         event EventHandler Tick;
-        void Start();
-
+        void Start(int gameSpeed);
     }
 }
 

@@ -12,6 +12,8 @@ namespace PackDrop
     [Activity (Label = "InGameActivity")]            
     public class InGameActivity : Activity
     {
+        private Bitmap _bitmap;
+
         private InGameViewModel Vm
         {
             get
@@ -26,24 +28,35 @@ namespace PackDrop
             base.OnCreate (savedInstanceState);
             SetContentView (Resource.Layout.InGame);
 
-            var layout = FindViewById<LinearLayout> (Resource.Id.gameLayout);
-            var image = new ImageView (ApplicationContext);
-            ThreadPool.QueueUserWorkItem (a => 
-                {
-                    var imgBitmap = DownloadBitmap();
-                    RunOnUiThread(() => 
-                        {
-                            image.SetImageBitmap (imgBitmap);
-                            layout.AddView (image);
-                        });
-                });
+            var image = CreateNewImageTile();
 
             Vm.PropertyChanged += (sender, e) =>
             {
-                if (e.PropertyName == nameof(Vm.YPosition)) {
-                    image.SetY (Vm.YPosition);
+                if (e.PropertyName == nameof(Vm.Game)) {
+                    image.SetY(Vm.FallingTile.YPos);
                 }
             };
+
+            Vm.Game.NewTile += (sender, args) => {
+                var newImage = CreateNewImageTile ();
+                newImage.SetY (Vm.Game.GetColumn (0) [0].YPos);
+            };
+        }
+
+        private ImageView CreateNewImageTile()
+        {
+            var layout = FindViewById<LinearLayout>(Resource.Id.gameLayout);
+            var image = new ImageView(ApplicationContext);
+            ThreadPool.QueueUserWorkItem(a => 
+            {
+                DownloadBitmap();
+                RunOnUiThread(() => 
+                    {
+                        image.SetImageBitmap (_bitmap);
+                        layout.AddView (image);
+                    });
+            });
+            return image;
         }
 
         protected override void OnResume ()
@@ -52,17 +65,20 @@ namespace PackDrop
             Vm.Initialise ();
         }
 
-        private Bitmap DownloadBitmap()
+        private void DownloadBitmap()
         {
-            Bitmap bitmap = null;
+            if (_bitmap != null) {
+                return;
+            }
+
             try
             {
-                using (var connection = new URL("PUTDUMMYURLHERE").OpenConnection())
+                using (var connection = new URL("DUMMYURLHERE").OpenConnection())
                 {
                     connection.Connect();
                     using (var input = connection.InputStream)
                     {
-                        bitmap = BitmapFactory.DecodeStream(input);
+                        _bitmap = BitmapFactory.DecodeStream(input);
                     }
                 }
             }
@@ -70,8 +86,6 @@ namespace PackDrop
             {
                 /// Do nothing for now
             }
-
-            return bitmap;
         } 
     }
 }

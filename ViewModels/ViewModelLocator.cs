@@ -24,9 +24,14 @@ namespace ViewModels
 
         static ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<InGameViewModel>();
+            Reset();
+        }
+
+        public static void Reset()
+        {
+            ServiceLocator.SetLocatorProvider (() => SimpleIoc.Default);
+            SimpleIoc.Default.Register<MainViewModel> ();
+            SimpleIoc.Default.Register<InGameViewModel> ();
         }
     }
 }

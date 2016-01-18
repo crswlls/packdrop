@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
-using GalaSoft.MvvmLight.Views;
-using GalaSoft.MvvmLight.Ioc;
+using GameplayContext;
 
 namespace IntegrationTests
 {
@@ -21,11 +20,36 @@ namespace IntegrationTests
             SetupHelper.Locator.InGameVm.Initialise();
 
             // WHEN: Time ticks by
-            SetupHelper.GameTimer.DoTick();
+            for (int i = 0; i < Game.NumberStepsToDrop; i++)
+            {
+                SetupHelper.GameTimer.DoTick();
 
-            // THEN: I see artwork falling
-            Assert.AreEqual(1, SetupHelper.Locator.InGameVm.YPosition);
+                // THEN: I see artwork falling
+                Assert.AreEqual(i + 1, SetupHelper.Locator.InGameVm.FallingTile.YPos);
+            }
+        }
 
+        [Test]
+        public void NewArtworkFallsWhenCurrentReachesTheBottom()
+        {
+            // GIVEN: Artwork is falling
+            var numberNewTiles = 0;
+            SetupHelper.Locator.InGameVm.Game.NewTile += (sender, args) => numberNewTiles++;
+            SetupHelper.Locator.InGameVm.Initialise();
+
+            // WHEN: The artwork reaches the lowest level
+            for (int i = 0; i < Game.NumberStepsToDrop; i++)
+            {
+                SetupHelper.GameTimer.DoTick ();
+            }
+
+            // THEN: New Artwork starts falling
+            SetupHelper.GameTimer.DoTick ();
+            Assert.AreEqual(1, numberNewTiles);
+            Assert.AreEqual(0, SetupHelper.Locator.InGameVm.FallingTile.YPos);
+
+            // AND: The original artwork remains at the bottom
+            Assert.AreEqual(1, SetupHelper.Locator.InGameVm.Game.GetColumn(0).Count);
         }
     }
 }

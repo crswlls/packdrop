@@ -3,6 +3,7 @@ using ViewModels;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using GameplayContext;
+using GameplayContext.Ports;
 
 namespace IntegrationTests
 {
@@ -29,11 +30,17 @@ namespace IntegrationTests
 
         public static void InitialiseApp()
         {
-            var nav = new NavigationServiceStub();
+            SimpleIoc.Default.Reset();
+            if (_locator != null) {
+                ViewModelLocator.Reset();
+            }
+
+            var nav = new NavigationServiceStub ();
 
             SimpleIoc.Default.Register<INavigationService> (() => nav);
-            SimpleIoc.Default.Register<IGame, Game>();
+            SimpleIoc.Default.Register<IGame, Game> ();
             SimpleIoc.Default.Register<IGameTimer> (() => _gameTimer);
+            SimpleIoc.Default.Register<IGameDimensions, GameDimensionsStub> ();
             _locator = new ViewModelLocator ();
         }
     }

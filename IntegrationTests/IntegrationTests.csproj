@@ -53,6 +53,7 @@
     <Compile Include="Stubs\NavigationServiceStub.cs" />
     <Compile Include="Stubs\GameTimerStub.cs" />
     <Compile Include="GameTests.cs" />
+    <Compile Include="Stubs\GameDimensionsStub.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -66,6 +67,10 @@
     <ProjectReference Include="..\GameplayContext\GameplayContext.csproj">
       <Project>{D1917ADA-CBAA-4C54-A927-70C0B831AAF4}</Project>
       <Name>GameplayContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharedKernel\SharedKernel.csproj">
+      <Project>{60FCE737-D31E-4EE8-978D-62718E96023D}</Project>
+      <Name>SharedKernel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

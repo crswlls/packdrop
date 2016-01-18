@@ -32,8 +32,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="IGameTimer.cs" />
     <Compile Include="IGame.cs" />
+    <Compile Include="Ports\IGameTimer.cs" />
+    <Compile Include="Ports\IGameDimensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -41,5 +42,8 @@
       <Project>{60FCE737-D31E-4EE8-978D-62718E96023D}</Project>
       <Name>SharedKernel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Ports\" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Timers;
+using GameplayContext.Ports;
 
-namespace GameplayContext
+namespace PackDrop.PortAdapters
 {
     public class GameTimer : IGameTimer
     {
@@ -10,12 +11,13 @@ namespace GameplayContext
         public GameTimer()
         {
             _timer.Elapsed += (sender, e) => Tick?.Invoke(sender, e);
-            _timer.Interval = 1000;
+
         }
 
         public event EventHandler Tick;
-        public void Start ()
+        public void Start (int gameSpeed)
         {
+            _timer.Interval = gameSpeed;
             _timer.Start();
         }
     }

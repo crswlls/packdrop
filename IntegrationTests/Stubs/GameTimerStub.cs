@@ -1,5 +1,5 @@
-﻿using GameplayContext;
-using System;
+﻿using System;
+using GameplayContext.Ports;
 
 namespace IntegrationTests
 {
@@ -7,7 +7,7 @@ namespace IntegrationTests
     {
         public event EventHandler Tick;
 
-        public void Start ()
+        public void Start (int gameSpeed)
         {
         }
 

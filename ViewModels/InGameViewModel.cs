@@ -1,6 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 using GameplayContext;
+using SharedKernel;
 
 namespace ViewModels
 {
@@ -14,18 +15,19 @@ namespace ViewModels
             _game = game;
         }
 
-        public int YPosition
+        public IGame Game
         {
             get
             {
-                return _yPos;
+                return _game;
             }
-            set
+        }
+
+        public Tile FallingTile
+        {
+            get
             {
-                if (Set(() => YPosition, ref _yPos, value))
-                {
-                    RaisePropertyChanged(() => YPosition);
-                }
+                return _game.FallingTile;
             }
         }
 
@@ -37,7 +39,7 @@ namespace ViewModels
 
         private void OnGameChanged(object sender, EventArgs e)
         {
-            YPosition = _game.GetColumn(0)[0].YPos;
+            RaisePropertyChanged (nameof(Game));
         }
     }
 }

@@ -2,6 +2,8 @@
 using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Ioc;
 using GameplayContext;
+using GameplayContext.Ports;
+using PackDrop.PortAdapters;
 
 namespace PackDrop
 {
@@ -18,6 +20,7 @@ namespace PackDrop
                     var nav = new NavigationService ();
                     nav.Configure(nameof(InGameViewModel), typeof(InGameActivity));
 
+                    SimpleIoc.Default.Register<IGameDimensions, GameDimensions>();
                     SimpleIoc.Default.Register<IGameTimer, GameTimer>();
                     SimpleIoc.Default.Register<INavigationService> (() => nav);
                     SimpleIoc.Default.Register<IGame, Game> ();
