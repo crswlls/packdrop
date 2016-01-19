@@ -18,7 +18,7 @@ namespace ViewModels
         private INavigationService _navigationService;
         private IGameDimensions _gameDimensions;
         private IGameTimer _timer;
-        private int _itemHeight;
+        private int _dropStep;
         private IDispatcher _dispatcher;
         private RelayCommand _moveRightCommand;
         private RelayCommand _moveLeftCommand;
@@ -64,7 +64,7 @@ namespace ViewModels
             _gameDimensions = gameDimensions;
             _timer = timer;
             _dispatcher = dispatcher;
-            _itemHeight = _gameDimensions.GameHeight / GameplayContext.Game.NumberStepsToDrop;
+            _dropStep = _gameDimensions.GameHeight / GameplayContext.Game.NumberStepsToDrop;
         }
 
         public RelayCommand MoveLeftCommand
@@ -105,7 +105,7 @@ namespace ViewModels
         {
             get
             {
-                return _game.FallingTile.YPos * _itemHeight;
+                return _game.FallingTile.YPos * _dropStep;
             }
         }
 

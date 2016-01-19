@@ -16,6 +16,7 @@ namespace PackDrop
     public class InGameActivity : Activity
     {
         private Dictionary<string, Bitmap> _bitmapLookup = new Dictionary<string, Bitmap>();
+        private ImageView _fallingImage;
 
         private InGameViewModel Vm
         {
@@ -33,7 +34,7 @@ namespace PackDrop
             FindViewById<Button>(Resource.Id.leftBtn).SetCommand ("Click", Vm.MoveLeftCommand);
             var gameArea = FindViewById<RelativeLayout>(Resource.Id.gameArea);
 
-            var image = CreateNewImageTile();
+            _fallingImage = CreateNewImageTile();
             FindViewById<ListView>(Resource.Id.game1).LayoutParameters.Width = Vm.TileSize;
             FindViewById<ListView>(Resource.Id.game1).RequestLayout();
             FindViewById<ListView>(Resource.Id.game1).Adapter = Vm.Column1.GetAdapter(GetColumnView);
@@ -70,8 +71,8 @@ namespace PackDrop
             Vm.PropertyChanged += (sender, e) =>
             {
                 if (e.PropertyName == nameof(Vm.Game)) {
-                    image.SetX(Vm.FallingTileXPos + padding);
-                    image.SetY(Vm.FallingTileYPos);
+                    _fallingImage.SetX(Vm.FallingTileXPos + padding);
+                    _fallingImage.SetY(Vm.FallingTileYPos);
                 }
             };
         }
@@ -86,7 +87,7 @@ namespace PackDrop
                 RunOnUiThread(() => 
                     {
                         image.SetImageBitmap(_bitmapLookup["temp"]);
-                        image.LayoutParameters = new ViewGroup.LayoutParams(Vm.TileSize, Vm.TileSize);
+                        image.LayoutParameters = new RelativeLayout.LayoutParams(Vm.TileSize, Vm.TileSize);
                         layout.AddView(image);
                     });
             });
@@ -103,7 +104,7 @@ namespace PackDrop
         {
             var imageView = new ImageView(Application.Context);
             imageView.SetImageBitmap (_bitmapLookup["temp"]);
-            imageView.LayoutParameters = new ViewGroup.LayoutParams(Vm.TileSize, Vm.TileSize);
+            imageView.LayoutParameters = new ListView.LayoutParams(Vm.TileSize, Vm.TileSize);
 
             return imageView;
         }

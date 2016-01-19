@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharedKernel;
+using System.Linq;
 
 namespace GameplayContext
 {
     public class Game : IGame
     {
         private const int NumberSteps = 15;
+        private int _numberColumns;
 
-        private List<Tile> _columns = new List<Tile>();
+        private List<List<Tile>> _columns = new List<List<Tile>>();
 
         public event EventHandler GameChanged;
         public event EventHandler<TileEventArgs> NewTile;
@@ -33,25 +35,35 @@ namespace GameplayContext
 
         public void StartGame(int numberColumns)
         {
-            _columns.Clear();
+            _numberColumns = numberColumns;
+            for (int i = 0; i < _numberColumns;i++)
+            {
+                _columns.Add(new List<Tile>());
+            }
             CreateNewFallingTile();
         }
 
         public void MoveRight()
         {
-            FallingTile.XPos++;
-            TileMoved?.Invoke(this, new TileEventArgs(FallingTile));
+            if (FallingTile.XPos < _numberColumns - 1)
+            {
+                FallingTile.XPos++;
+                TileMoved?.Invoke(this, new TileEventArgs(FallingTile));
+            }
         }
 
         public void MoveLeft()
         {
-            FallingTile.XPos--;
-            TileMoved?.Invoke(this, new TileEventArgs(FallingTile));
+            if (FallingTile.XPos > 0)
+            {
+                FallingTile.XPos--;
+                TileMoved?.Invoke(this, new TileEventArgs(FallingTile));
+            }
         }
 
         public List<Tile> GetColumn(int columnNumber)
         {
-            return _columns;
+            return _columns[columnNumber];
         }
 
         public void Continue()
@@ -80,7 +92,7 @@ namespace GameplayContext
         {
             get
             {
-                return _columns.Count + FallingTile.YPos >= NumberSteps;
+                return _columns[FallingTile.XPos].Count + FallingTile.YPos >= NumberSteps;
             }
         }
 
@@ -89,7 +101,7 @@ namespace GameplayContext
             if (FallingTile != null)
             {
                 FallingTile.IsFalling = false;
-                _columns.Add(FallingTile);
+                _columns[FallingTile.XPos].Add(FallingTile);
             }
 
             FallingTile = new Tile { IsFalling = true, XPos = 4, YPos = 0 };
@@ -99,7 +111,7 @@ namespace GameplayContext
         {
             get
             {
-                return _columns.Count > NumberSteps;
+                return _columns.Any(x => x.Count > NumberSteps);
             }
         }
     }
