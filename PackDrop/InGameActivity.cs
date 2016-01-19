@@ -32,6 +32,7 @@ namespace PackDrop
             SetContentView (Resource.Layout.InGame);
             FindViewById<Button>(Resource.Id.rightBtn).SetCommand ("Click", Vm.MoveRightCommand);
             FindViewById<Button>(Resource.Id.leftBtn).SetCommand ("Click", Vm.MoveLeftCommand);
+            FindViewById<Button>(Resource.Id.downBtn).SetCommand ("Click", Vm.DropCommand);
             var gameArea = FindViewById<RelativeLayout>(Resource.Id.gameArea);
 
             _fallingImage = CreateNewImageTile();
@@ -105,6 +106,7 @@ namespace PackDrop
             var imageView = new ImageView(Application.Context);
             imageView.SetImageBitmap (_bitmapLookup["temp"]);
             imageView.LayoutParameters = new ListView.LayoutParams(Vm.TileSize, Vm.TileSize);
+            _fallingImage.SetY(-150);
 
             return imageView;
         }

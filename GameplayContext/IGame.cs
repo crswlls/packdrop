@@ -10,6 +10,7 @@ namespace GameplayContext
         void Continue();
         void MoveLeft();
         void MoveRight();
+        void Drop ();
         Tile FallingTile { get; }
         List<Tile> GetColumn(int columnNumber);
         event EventHandler GameChanged;

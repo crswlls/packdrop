@@ -22,6 +22,7 @@ namespace ViewModels
         private IDispatcher _dispatcher;
         private RelayCommand _moveRightCommand;
         private RelayCommand _moveLeftCommand;
+        private RelayCommand _dropCommand;
 
         private List<ObservableCollection<Tile>> Columns = new List<ObservableCollection<Tile>>();
 
@@ -91,6 +92,19 @@ namespace ViewModels
         private void OnMoveRightCommand()
         {
             _game.MoveRight();
+        }
+
+        public RelayCommand DropCommand
+        {
+            get
+            {
+                return _dropCommand ?? (_dropCommand = new RelayCommand(OnDropCommand));
+            }
+        }
+
+        private void OnDropCommand()
+        {
+            _game.Drop();
         }
 
         public IGame Game

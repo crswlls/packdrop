@@ -7,7 +7,7 @@ namespace GameplayContext
 {
     public class Game : IGame
     {
-        private const int NumberSteps = 15;
+        private const int NumberSteps = 14;
         private int _numberColumns;
 
         private List<List<Tile>> _columns = new List<List<Tile>>();
@@ -59,6 +59,11 @@ namespace GameplayContext
                 FallingTile.XPos--;
                 TileMoved?.Invoke(this, new TileEventArgs(FallingTile));
             }
+        }
+
+        public void Drop ()
+        {
+            FallingTile.YPos = NumberSteps - _columns[FallingTile.XPos].Count;
         }
 
         public List<Tile> GetColumn(int columnNumber)
