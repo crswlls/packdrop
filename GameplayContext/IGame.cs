@@ -6,8 +6,10 @@ namespace GameplayContext
 {
     public interface IGame
     {
-        void StartGame();
+        void StartGame(int numberColumns);
         void Continue();
+        void MoveLeft();
+        void MoveRight();
         Tile FallingTile { get; }
         List<Tile> GetColumn(int columnNumber);
         event EventHandler GameChanged;
@@ -15,6 +17,7 @@ namespace GameplayContext
         event EventHandler<TileEventArgs> NewTile;
         event EventHandler<TileEventArgs> TileFell;
         event EventHandler<TileEventArgs> TileStopped;
+        event EventHandler<TileEventArgs> TileMoved;
     }
 }
 

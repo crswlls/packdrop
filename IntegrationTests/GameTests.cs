@@ -49,7 +49,7 @@ namespace IntegrationTests
             Assert.AreEqual(0, SetupHelper.Locator.InGameVm.FallingTileYPos);
 
             // AND: The original artwork remains at the bottom
-            Assert.AreEqual(1, SetupHelper.Locator.InGameVm.Game.GetColumn(0).Count);
+            Assert.AreEqual(1, SetupHelper.Locator.InGameVm.Column5.Count);
         }
 
         [Test]
@@ -67,6 +67,44 @@ namespace IntegrationTests
 
             // THEN: I am taken to the game over screen
             Assert.AreEqual(nameof(GameOverViewModel), SetupHelper.NavigationService.CurrentPageKey);
+        }
+
+        [Test]
+        public void IfIMoveRightThenTheNextColumnIsPopulated()
+        {
+            // GIVEN: I am playing the game
+            SetupHelper.Locator.InGameVm.Initialise();
+
+            // WHEN: I move right
+            SetupHelper.Locator.InGameVm.MoveRightCommand.Execute(null);
+
+            // AND: The Artwork falls
+            for (int i = 0; i <= Game.NumberStepsToDrop; i++)
+            {
+                SetupHelper.GameTimer.DoTick();
+            }
+
+            // THEN: the next column is populated
+            Assert.AreEqual(1, SetupHelper.Locator.InGameVm.Column6.Count);
+        }
+
+        [Test]
+        public void IfIMoveLeftThenThePreviousColumnIsPopulated()
+        {
+            // GIVEN: I am playing the game
+            SetupHelper.Locator.InGameVm.Initialise();
+
+            // WHEN: I move left
+            SetupHelper.Locator.InGameVm.MoveLeftCommand.Execute(null);
+
+            // AND: The Artwork falls
+            for (int i = 0; i <= Game.NumberStepsToDrop; i++)
+            {
+                SetupHelper.GameTimer.DoTick();
+            }
+
+            // THEN: the next column is populated
+            Assert.AreEqual(1, SetupHelper.Locator.InGameVm.Column4.Count);
         }
     }
 }

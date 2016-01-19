@@ -4,23 +4,117 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/gameArea"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <TextView
+            android:id="@+id/scoreLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Score"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+        <Button
+            android:id="@+id/leftBtn"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="L"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true" />
+        <Button
+            android:id="@+id/downBtn"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="D"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/rightBtn"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="R"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true" />
         <ListView
-            android:id="@+id/game"
-            android:minWidth="25px"
-            android:minHeight="25px"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/game1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:cacheColorHint="@android:color/transparent"
-            android:stackFromBottom="true" />
-        <TextView
-            android:id="@+id/game"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="50px"
-            android:text="@string/tap_anywhere" />
-    </LinearLayout>
+            android:stackFromBottom="true"
+            android:layout_above="@id/leftBtn" />
+        <ListView
+            android:id="@+id/game2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:stackFromBottom="true"
+            android:layout_above="@id/leftBtn"
+            android:layout_toRightOf="@id/game1" />
+        <ListView
+            android:id="@+id/game3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:stackFromBottom="true"
+            android:layout_above="@id/leftBtn"
+            android:layout_toRightOf="@id/game2" />
+        <ListView
+            android:id="@+id/game4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:stackFromBottom="true"
+            android:layout_above="@id/leftBtn"
+            android:layout_toRightOf="@+id/game3" />
+        <ListView
+            android:id="@+id/game5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:stackFromBottom="true"
+            android:layout_above="@id/leftBtn"
+            android:layout_toRightOf="@+id/game4" />
+        <ListView
+            android:id="@+id/game6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:stackFromBottom="true"
+            android:layout_above="@id/leftBtn"
+            android:layout_toRightOf="@+id/game5" />
+        <ListView
+            android:id="@+id/game7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:stackFromBottom="true"
+            android:layout_above="@id/leftBtn"
+            android:layout_toRightOf="@+id/game6" />
+        <ListView
+            android:id="@+id/game8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:stackFromBottom="true"
+            android:layout_above="@id/leftBtn"
+            android:layout_toRightOf="@+id/game7" />
+        <ListView
+            android:id="@+id/game9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:stackFromBottom="true"
+            android:layout_above="@id/leftBtn"
+            android:layout_toRightOf="@+id/game8" />
+    </RelativeLayout>
 </FrameLayout>

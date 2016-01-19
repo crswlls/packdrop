@@ -9,6 +9,8 @@ using Android.Views;
 using System.Collections.Generic;
 using GalaSoft.MvvmLight.Helpers;
 using SharedKernel;
+using GalaSoft.MvvmLight.Ioc;
+using GameplayContext;
 
 namespace PackDrop
 {
@@ -31,12 +33,50 @@ namespace PackDrop
             base.OnCreate (savedInstanceState);
             SetContentView (Resource.Layout.InGame);
 
+
+            FindViewById<Button>(Resource.Id.rightBtn).SetCommand ("Click", Vm.MoveRightCommand);
+            FindViewById<Button>(Resource.Id.leftBtn).SetCommand ("Click", Vm.MoveLeftCommand);
+
+            var gameDimensions = SimpleIoc.Default.GetInstance<IGameDimensions>() as GameDimensions;
+            gameDimensions.Update((Resources.DisplayMetrics.HeightPixels * 2) / 3, Resources.DisplayMetrics.WidthPixels - 20);
+            var gameArea = FindViewById<RelativeLayout>(Resource.Id.gameArea);
+
             var image = CreateNewImageTile();
-            FindViewById<ListView>(Resource.Id.game).Adapter = Vm.Column0.GetAdapter(GetColumnView);
+            FindViewById<ListView>(Resource.Id.game1).LayoutParameters.Width = Vm.TileSize;
+            FindViewById<ListView>(Resource.Id.game1).RequestLayout();
+            FindViewById<ListView>(Resource.Id.game1).Adapter = Vm.Column1.GetAdapter(GetColumnView);
+            ////FindViewById<ListView>(Resource.Id.game1).SetBackgroundColor(Color.AliceBlue);
+            FindViewById<ListView>(Resource.Id.game2).Adapter = Vm.Column2.GetAdapter(GetColumnView);
+            FindViewById<ListView>(Resource.Id.game2).LayoutParameters.Width = Vm.TileSize;
+            FindViewById<ListView>(Resource.Id.game2).RequestLayout();
+            ////FindViewById<ListView>(Resource.Id.game2).SetBackgroundColor(Color.Beige);
+            FindViewById<ListView>(Resource.Id.game3).Adapter = Vm.Column3.GetAdapter(GetColumnView);
+            FindViewById<ListView>(Resource.Id.game3).LayoutParameters.Width = Vm.TileSize;
+            FindViewById<ListView>(Resource.Id.game3).RequestLayout();
+            FindViewById<ListView>(Resource.Id.game4).Adapter = Vm.Column4.GetAdapter(GetColumnView);
+            FindViewById<ListView>(Resource.Id.game4).LayoutParameters.Width = Vm.TileSize;
+            FindViewById<ListView>(Resource.Id.game4).RequestLayout();
+            FindViewById<ListView>(Resource.Id.game5).Adapter = Vm.Column5.GetAdapter(GetColumnView);
+            FindViewById<ListView>(Resource.Id.game5).LayoutParameters.Width = Vm.TileSize;
+            FindViewById<ListView>(Resource.Id.game5).RequestLayout();
+            FindViewById<ListView>(Resource.Id.game6).Adapter = Vm.Column6.GetAdapter(GetColumnView);
+            FindViewById<ListView>(Resource.Id.game6).LayoutParameters.Width = Vm.TileSize;
+            FindViewById<ListView>(Resource.Id.game6).RequestLayout();
+            //// FindViewById<ListView>(Resource.Id.game6).SetBackgroundColor(Color.Chocolate);
+            FindViewById<ListView>(Resource.Id.game7).Adapter = Vm.Column7.GetAdapter(GetColumnView);
+            FindViewById<ListView>(Resource.Id.game7).LayoutParameters.Width = Vm.TileSize;
+            FindViewById<ListView>(Resource.Id.game7).RequestLayout();
+            FindViewById<ListView>(Resource.Id.game8).Adapter = Vm.Column8.GetAdapter(GetColumnView);
+            FindViewById<ListView>(Resource.Id.game8).LayoutParameters.Width = Vm.TileSize;
+            FindViewById<ListView>(Resource.Id.game8).RequestLayout();
+            FindViewById<ListView>(Resource.Id.game9).Adapter = Vm.Column9.GetAdapter(GetColumnView);
+            FindViewById<ListView>(Resource.Id.game9).LayoutParameters.Width = Vm.TileSize;
+            FindViewById<ListView>(Resource.Id.game9).RequestLayout();
 
             Vm.PropertyChanged += (sender, e) =>
             {
                 if (e.PropertyName == nameof(Vm.Game)) {
+                    image.SetX(Vm.FallingTileXPos);
                     image.SetY(Vm.FallingTileYPos);
                 }
             };
@@ -44,7 +84,7 @@ namespace PackDrop
 
         private ImageView CreateNewImageTile()
         {
-            var layout = FindViewById<FrameLayout>(Resource.Id.gameLayout);
+            var layout = FindViewById<RelativeLayout>(Resource.Id.gameArea);
             var image = new ImageView(ApplicationContext);
             ThreadPool.QueueUserWorkItem(a => 
             {

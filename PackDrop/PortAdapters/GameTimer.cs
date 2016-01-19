@@ -11,7 +11,6 @@ namespace PackDrop.PortAdapters
         public GameTimer()
         {
             _timer.Elapsed += (sender, args) => Tick?.Invoke(sender, args);
-
         }
 
         public event EventHandler Tick;

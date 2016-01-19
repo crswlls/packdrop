@@ -14,6 +14,7 @@ namespace GameplayContext
         public event EventHandler<TileEventArgs> NewTile;
         public event EventHandler<TileEventArgs> TileFell;
         public event EventHandler<TileEventArgs> TileStopped;
+        public event EventHandler<TileEventArgs> TileMoved;
         public event EventHandler GameOver;
 
         /// <summary>
@@ -30,10 +31,22 @@ namespace GameplayContext
 
         public Tile FallingTile { get; private set; }
 
-        public void StartGame()
+        public void StartGame(int numberColumns)
         {
             _columns.Clear();
             CreateNewFallingTile();
+        }
+
+        public void MoveRight()
+        {
+            FallingTile.XPos++;
+            TileMoved?.Invoke(this, new TileEventArgs(FallingTile));
+        }
+
+        public void MoveLeft()
+        {
+            FallingTile.XPos--;
+            TileMoved?.Invoke(this, new TileEventArgs(FallingTile));
         }
 
         public List<Tile> GetColumn(int columnNumber)
@@ -79,7 +92,7 @@ namespace GameplayContext
                 _columns.Add(FallingTile);
             }
 
-            FallingTile = new Tile { IsFalling = true, XPos = 0, YPos = 0 };
+            FallingTile = new Tile { IsFalling = true, XPos = 4, YPos = 0 };
         }
 
         private bool IsGameOver
