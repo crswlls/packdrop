@@ -4,6 +4,7 @@ using Android.App;
 using System.Runtime.Remoting.Contexts;
 using Java.Interop;
 using Android.Views;
+using Android.Content.Res;
 
 namespace PackDrop
 {
@@ -20,8 +21,8 @@ namespace PackDrop
 
         public GameDimensions()
         {
-            _height = 600;
-            _width = 300;
+            _height = (Application.Context.Resources.DisplayMetrics.HeightPixels * 2) / 3;
+            _width = Application.Context.Resources.DisplayMetrics.WidthPixels - (int)(20 * Application.Context.Resources.DisplayMetrics.Density);
         }
 
         public int GameHeight { get { return _height; } }

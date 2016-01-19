@@ -1,16 +1,14 @@
-﻿using Android.App;
-using Android.OS;
-using Android.Widget;
-using Android.Graphics;
-using Java.Net;
+﻿using System.Collections.Generic;
 using System.Threading;
-using ViewModels;
+using Android.App;
+using Android.Graphics;
+using Android.OS;
 using Android.Views;
-using System.Collections.Generic;
+using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
+using Java.Net;
 using SharedKernel;
-using GalaSoft.MvvmLight.Ioc;
-using GameplayContext;
+using ViewModels;
 
 namespace PackDrop
 {
@@ -24,7 +22,6 @@ namespace PackDrop
             get
             {
                 return App.Locator.InGameVm;
-
             }
         }
 
@@ -32,13 +29,8 @@ namespace PackDrop
         {
             base.OnCreate (savedInstanceState);
             SetContentView (Resource.Layout.InGame);
-
-
             FindViewById<Button>(Resource.Id.rightBtn).SetCommand ("Click", Vm.MoveRightCommand);
             FindViewById<Button>(Resource.Id.leftBtn).SetCommand ("Click", Vm.MoveLeftCommand);
-
-            var gameDimensions = SimpleIoc.Default.GetInstance<IGameDimensions>() as GameDimensions;
-            gameDimensions.Update((Resources.DisplayMetrics.HeightPixels * 2) / 3, Resources.DisplayMetrics.WidthPixels - 20);
             var gameArea = FindViewById<RelativeLayout>(Resource.Id.gameArea);
 
             var image = CreateNewImageTile();
@@ -73,10 +65,12 @@ namespace PackDrop
             FindViewById<ListView>(Resource.Id.game9).LayoutParameters.Width = Vm.TileSize;
             FindViewById<ListView>(Resource.Id.game9).RequestLayout();
 
+            var padding = (int)(10 * Application.Context.Resources.DisplayMetrics.Density);
+
             Vm.PropertyChanged += (sender, e) =>
             {
                 if (e.PropertyName == nameof(Vm.Game)) {
-                    image.SetX(Vm.FallingTileXPos);
+                    image.SetX(Vm.FallingTileXPos + padding);
                     image.SetY(Vm.FallingTileYPos);
                 }
             };

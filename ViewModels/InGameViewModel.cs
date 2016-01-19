@@ -12,7 +12,7 @@ namespace ViewModels
 {
     public class InGameViewModel : ViewModelBase
     {
-        private const int GameSpeed = 500;
+        private const int GameSpeed = 250;
 
         private IGame _game;
         private INavigationService _navigationService;
@@ -113,7 +113,7 @@ namespace ViewModels
         {
             get
             {
-                return _game.FallingTile.XPos * _itemHeight;
+                return _game.FallingTile.XPos * TileSize;
             }
         }
 
