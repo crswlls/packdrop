@@ -1,5 +1,6 @@
 ﻿using System;
 using GameplayContext;
+using ViewModels;
 
 namespace IntegrationTests
 {
@@ -10,6 +11,12 @@ namespace IntegrationTests
             get
             {
                 return Game.NumberStepsToDrop;
+            }
+        }
+
+        public int GameWidth {
+            get {
+                return InGameViewModel.NumberColumns;
             }
         }
     }

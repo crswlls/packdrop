@@ -1,33 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharedKernel;
-using GameplayContext.Ports;
 
 namespace GameplayContext
 {
     public class Game : IGame
     {
-        private const int GameSpeed = 1000;
         private const int NumberSteps = 15;
-        private int _sizeOfStep;
 
         private List<Tile> _columns = new List<Tile>();
-        private IGameTimer _timer;
-        private IGameDimensions _gameDimensions;
-
-        public Game(IGameTimer timer, IGameDimensions gameDimensions)
-        {
-            _timer = timer;
-            _gameDimensions = gameDimensions;
-            FallingTile = new Tile();
-            _timer.Tick += GameTimerFired;
-            _sizeOfStep = _gameDimensions.GameHeight / NumberSteps;
-        }
 
         public event EventHandler GameChanged;
-        public event EventHandler NewTile;
-
-        public Tile FallingTile { get; private set; }
+        public event EventHandler<TileEventArgs> NewTile;
+        public event EventHandler<TileEventArgs> TileFell;
+        public event EventHandler<TileEventArgs> TileStopped;
+        public event EventHandler GameOver;
 
         /// <summary>
         /// Exposed for test purposes
@@ -41,9 +28,12 @@ namespace GameplayContext
             }
         }
 
+        public Tile FallingTile { get; private set; }
+
         public void StartGame()
         {
-            _timer.Start(GameSpeed);
+            _columns.Clear();
+            CreateNewFallingTile();
         }
 
         public List<Tile> GetColumn(int columnNumber)
@@ -51,20 +41,53 @@ namespace GameplayContext
             return _columns;
         }
 
-        private void GameTimerFired(object sender, EventArgs e)
+        public void Continue()
         {
-            if (FallingTile.YPos >= _gameDimensions.GameHeight)
+            if (IsNewTileRequired)
             {
-                _columns.Add (FallingTile);
-                FallingTile = new Tile ();
-                NewTile?.Invoke(this, EventArgs.Empty);
+                TileStopped?.Invoke(this, new TileEventArgs(FallingTile));
+
+                if (IsGameOver)
+                {
+                    GameOver?.Invoke(this, EventArgs.Empty);
+                    return;
+                }
+
+                CreateNewFallingTile();
+                NewTile?.Invoke(this, new TileEventArgs(FallingTile));
             }
             else
             {
-                FallingTile.YPos += _sizeOfStep;
+                FallingTile.YPos++;
+                TileFell?.Invoke(this, new TileEventArgs(FallingTile));
+            }
+        }
+
+        private bool IsNewTileRequired
+        {
+            get
+            {
+                return _columns.Count + FallingTile.YPos >= NumberSteps;
+            }
+        }
+
+        private void CreateNewFallingTile()
+        {
+            if (FallingTile != null)
+            {
+                FallingTile.IsFalling = false;
+                _columns.Add(FallingTile);
             }
 
-            GameChanged?.Invoke (this, EventArgs.Empty);
+            FallingTile = new Tile { IsFalling = true, XPos = 0, YPos = 0 };
+        }
+
+        private bool IsGameOver
+        {
+            get
+            {
+                return _columns.Count > NumberSteps;
+            }
         }
     }
 }

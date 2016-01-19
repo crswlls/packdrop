@@ -7,6 +7,7 @@ namespace SharedKernel
         public int XPos { get; set; }
         public int YPos { get; set; }
         public string ImageId { get; set; }
+        public bool IsFalling { get; set; }
     }
 }
 

@@ -10,7 +10,7 @@ namespace PackDrop.PortAdapters
 
         public GameTimer()
         {
-            _timer.Elapsed += (sender, e) => Tick?.Invoke(sender, e);
+            _timer.Elapsed += (sender, args) => Tick?.Invoke(sender, args);
 
         }
 
@@ -19,6 +19,11 @@ namespace PackDrop.PortAdapters
         {
             _timer.Interval = gameSpeed;
             _timer.Start();
+        }
+
+        public void Stop()
+        {
+            _timer.Stop();
         }
     }
 }

@@ -1,22 +1,29 @@
-﻿using System;
-using ViewModels;
-using GalaSoft.MvvmLight.Ioc;
+﻿using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using GameplayContext;
 using GameplayContext.Ports;
+using ViewModels;
 
 namespace IntegrationTests
 {
-    public static class SetupHelper
+    public class SetupHelper
     {
         private static ViewModelLocator _locator;
-        private static GameTimerStub _gameTimer = new GameTimerStub();
+        private static NavigationServiceStub _navigationService = new NavigationServiceStub();
 
         public static GameTimerStub GameTimer
         {
             get
             {
-                return _gameTimer;
+                return SimpleIoc.Default.GetInstance<IGameTimer>() as GameTimerStub;
+            }
+        }
+
+        public static NavigationServiceStub NavigationService
+        {
+            get
+            {
+                return SimpleIoc.Default.GetInstance<INavigationService>() as NavigationServiceStub;
             }
         }
 
@@ -31,18 +38,17 @@ namespace IntegrationTests
         public static void InitialiseApp()
         {
             SimpleIoc.Default.Reset();
-            if (_locator != null) {
+            if (_locator != null)
+            {
                 ViewModelLocator.Reset();
             }
 
-            var nav = new NavigationServiceStub ();
-
-            SimpleIoc.Default.Register<INavigationService> (() => nav);
-            SimpleIoc.Default.Register<IGame, Game> ();
-            SimpleIoc.Default.Register<IGameTimer> (() => _gameTimer);
-            SimpleIoc.Default.Register<IGameDimensions, GameDimensionsStub> ();
-            _locator = new ViewModelLocator ();
+            SimpleIoc.Default.Register<INavigationService>(() => _navigationService);
+            SimpleIoc.Default.Register<IDispatcher, DispatcherStub>();
+            SimpleIoc.Default.Register<IGame, Game>();
+            SimpleIoc.Default.Register<IGameTimer, GameTimerStub>();
+            SimpleIoc.Default.Register<IGameDimensions, GameDimensionsStub>();
+            _locator = new ViewModelLocator();
         }
     }
 }
-

@@ -3,16 +3,19 @@ using Android.OS;
 using Android.Widget;
 using Android.Graphics;
 using Java.Net;
-using Java.IO;
 using System.Threading;
 using ViewModels;
+using Android.Views;
+using System.Collections.Generic;
+using GalaSoft.MvvmLight.Helpers;
+using SharedKernel;
 
 namespace PackDrop
 {
     [Activity (Label = "InGameActivity")]            
     public class InGameActivity : Activity
     {
-        private Bitmap _bitmap;
+        private Dictionary<string, Bitmap> _bitmapLookup = new Dictionary<string, Bitmap>();
 
         private InGameViewModel Vm
         {
@@ -29,31 +32,28 @@ namespace PackDrop
             SetContentView (Resource.Layout.InGame);
 
             var image = CreateNewImageTile();
+            FindViewById<ListView>(Resource.Id.game).Adapter = Vm.Column0.GetAdapter(GetColumnView);
 
             Vm.PropertyChanged += (sender, e) =>
             {
                 if (e.PropertyName == nameof(Vm.Game)) {
-                    image.SetY(Vm.FallingTile.YPos);
+                    image.SetY(Vm.FallingTileYPos);
                 }
-            };
-
-            Vm.Game.NewTile += (sender, args) => {
-                var newImage = CreateNewImageTile ();
-                newImage.SetY (Vm.Game.GetColumn (0) [0].YPos);
             };
         }
 
         private ImageView CreateNewImageTile()
         {
-            var layout = FindViewById<LinearLayout>(Resource.Id.gameLayout);
+            var layout = FindViewById<FrameLayout>(Resource.Id.gameLayout);
             var image = new ImageView(ApplicationContext);
             ThreadPool.QueueUserWorkItem(a => 
             {
-                DownloadBitmap();
+                DownloadBitmap("temp");
                 RunOnUiThread(() => 
                     {
-                        image.SetImageBitmap (_bitmap);
-                        layout.AddView (image);
+                        image.SetImageBitmap(_bitmapLookup["temp"]);
+                        image.LayoutParameters = new ViewGroup.LayoutParams(Vm.TileSize, Vm.TileSize);
+                        layout.AddView(image);
                     });
             });
             return image;
@@ -65,9 +65,18 @@ namespace PackDrop
             Vm.Initialise ();
         }
 
-        private void DownloadBitmap()
+        private View GetColumnView(int position, Tile tile, View convertView)
         {
-            if (_bitmap != null) {
+            var imageView = new ImageView(Application.Context);
+            imageView.SetImageBitmap (_bitmapLookup["temp"]);
+            imageView.LayoutParameters = new ViewGroup.LayoutParams(Vm.TileSize, Vm.TileSize);
+
+            return imageView;
+        }
+
+        private void DownloadBitmap(string id)
+        {
+            if (_bitmapLookup.ContainsKey(id)) {
                 return;
             }
 
@@ -78,7 +87,7 @@ namespace PackDrop
                     connection.Connect();
                     using (var input = connection.InputStream)
                     {
-                        _bitmap = BitmapFactory.DecodeStream(input);
+                        _bitmapLookup.Add(id, BitmapFactory.DecodeStream(input));
                     }
                 }
             }

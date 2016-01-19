@@ -63,6 +63,8 @@
     <Compile Include="App.cs" />
     <Compile Include="PortAdapters\GameTimer.cs" />
     <Compile Include="PortAdapters\GameDimensions.cs" />
+    <Compile Include="GameOverActivity.cs" />
+    <Compile Include="PortAdapters\AndroidDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -79,6 +81,7 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\InGame.axml" />
+    <AndroidResource Include="Resources\layout\GameOver.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

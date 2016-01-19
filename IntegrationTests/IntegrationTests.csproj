@@ -54,6 +54,7 @@
     <Compile Include="Stubs\GameTimerStub.cs" />
     <Compile Include="GameTests.cs" />
     <Compile Include="Stubs\GameDimensionsStub.cs" />
+    <Compile Include="Stubs\DispatcherStub.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
