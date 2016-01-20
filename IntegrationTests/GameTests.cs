@@ -106,5 +106,19 @@ namespace IntegrationTests
             // THEN: the next column is populated
             Assert.AreEqual(1, SetupHelper.Locator.InGameVm.Column4.Count);
         }
+
+        [Test]
+        public void IfIPressDropThenTheFallingArtworkDrops()
+        {
+            // GIVEN: I am playing the game
+            SetupHelper.Locator.InGameVm.Initialise();
+
+            // WHEN: I move left
+            SetupHelper.Locator.InGameVm.DropCommand.Execute(null);
+
+            // Then: The Artwork falls immediately
+            SetupHelper.GameTimer.DoTick();
+            Assert.AreEqual(1, SetupHelper.Locator.InGameVm.Column5.Count);
+        }
     }
 }
