@@ -36,6 +36,8 @@ namespace PackDrop
             await Vm.InitAsync();
 
             FindViewById<Gallery>(Resource.Id.gallery).Adapter = Vm.ImageUris.GetAdapter(GetArtworkView);
+            var layout = FindViewById<Button>(Resource.Id.Continue);
+            layout.SetCommand ("Click", Vm.GoToGameCommand);
         }
 
         private View GetArtworkView(int position, Uri uri, View convertView)
