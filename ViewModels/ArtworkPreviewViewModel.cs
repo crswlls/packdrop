@@ -13,6 +13,7 @@ namespace ViewModels
         private INavigationService _navService;
         private RelayCommand _goToGameCommand;
         private IArtworkRequester _requester;
+        private bool _haveImages;
 
         public ObservableCollection<Uri> ImageUris { get; set; }
 
@@ -25,10 +26,14 @@ namespace ViewModels
 
         public async Task InitAsync()
         {
-            await _requester.GetArtwork();
-            foreach (var imageUri in _requester.Artwork)
+            if (await _requester.GetArtwork())
             {
-                ImageUris.Add(imageUri);
+                foreach (var imageUri in _requester.Artwork)
+                {
+                    ImageUris.Add(imageUri);
+                    _haveImages = true;
+                    GoToGameCommand.RaiseCanExecuteChanged();
+                }
             }
         }
 
@@ -36,7 +41,8 @@ namespace ViewModels
         {
             get
             {
-                return _goToGameCommand ?? (_goToGameCommand = new RelayCommand(() => _navService.NavigateTo(nameof(InGameViewModel))));
+                return _goToGameCommand ?? (_goToGameCommand = new RelayCommand(() => _navService.NavigateTo(nameof(InGameViewModel)),
+                                                                                () => _haveImages));
             }
         }
     }

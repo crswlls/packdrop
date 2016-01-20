@@ -2,15 +2,15 @@
 using System;
 using System.Collections.Generic;
 
+using System.Threading;
 using Android.App;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using ViewModels;
-using Android.Graphics;
 using GalaSoft.MvvmLight.Helpers;
 using Java.Net;
-using System.Threading;
+using ViewModels;
 
 namespace PackDrop
 {
@@ -34,8 +34,9 @@ namespace PackDrop
             await Vm.InitAsync();
 
             FindViewById<Gallery>(Resource.Id.gallery).Adapter = Vm.ImageUris.GetAdapter(GetArtworkView);
-            var layout = FindViewById<Button>(Resource.Id.Continue);
-            layout.SetCommand ("Click", Vm.GoToGameCommand);
+            var btn = FindViewById<Button>(Resource.Id.Continue);
+            btn.SetCommand ("Click", Vm.GoToGameCommand);
+            //// btn.SetBinding(() => btn.Enabled, () => Vm.GoToGameCommand.CanExecute);
         }
 
         private View GetArtworkView(int position, Uri uri, View convertView)
