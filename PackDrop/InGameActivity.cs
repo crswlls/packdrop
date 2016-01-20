@@ -82,7 +82,10 @@ namespace PackDrop
         {
             var layout = FindViewById<RelativeLayout>(Resource.Id.gameArea);
             var image = new ImageView(ApplicationContext);
-            ThreadPool.QueueUserWorkItem(a => 
+            image.SetImageBitmap(_bitmapLookup["temp"]);
+            image.LayoutParameters = new RelativeLayout.LayoutParams(Vm.TileSize, Vm.TileSize);
+            layout.AddView(image);
+            /*ThreadPool.QueueUserWorkItem(a => 
             {
                 DownloadBitmap("temp");
                 RunOnUiThread(() => 
@@ -91,7 +94,7 @@ namespace PackDrop
                         image.LayoutParameters = new RelativeLayout.LayoutParams(Vm.TileSize, Vm.TileSize);
                         layout.AddView(image);
                     });
-            });
+            });*/
             return image;
         }
 
@@ -110,29 +113,6 @@ namespace PackDrop
 
             return imageView;
         }
-
-        private void DownloadBitmap(string id)
-        {
-            if (_bitmapLookup.ContainsKey(id)) {
-                return;
-            }
-
-            try
-            {
-                using (var connection = new URL("DUMMYURLHERE").OpenConnection())
-                {
-                    connection.Connect();
-                    using (var input = connection.InputStream)
-                    {
-                        _bitmapLookup.Add(id, BitmapFactory.DecodeStream(input));
-                    }
-                }
-            }
-            catch
-            {
-                /// Do nothing for now
-            }
-        } 
     }
 }
 

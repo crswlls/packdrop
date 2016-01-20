@@ -36,6 +36,7 @@
     <Compile Include="MainViewModel.cs" />
     <Compile Include="GameOverViewModel.cs" />
     <Compile Include="IDispatcher.cs" />
+    <Compile Include="ArtworkPreviewViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj">
       <Project>{60FCE737-D31E-4EE8-978D-62718E96023D}</Project>
       <Name>SharedKernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArtworkSelectionContext\ArtworkSelectionContext.csproj">
+      <Project>{5D433F04-4E3E-4017-917E-826906EEC24C}</Project>
+      <Name>ArtworkSelectionContext</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

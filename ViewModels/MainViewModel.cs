@@ -18,7 +18,7 @@ namespace ViewModels
         {
             get
             {
-                return _launchCommand ?? (_launchCommand = new RelayCommand(() => _navService.NavigateTo(nameof(InGameViewModel))));
+                return _launchCommand ?? (_launchCommand = new RelayCommand(() => _navService.NavigateTo(nameof(ArtworkPreviewViewModel))));
             }
         }
     }
