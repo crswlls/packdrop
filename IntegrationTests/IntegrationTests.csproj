@@ -73,6 +73,10 @@
       <Project>{60FCE737-D31E-4EE8-978D-62718E96023D}</Project>
       <Name>SharedKernel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ArtworkSelectionContext\ArtworkSelectionContext.csproj">
+      <Project>{5D433F04-4E3E-4017-917E-826906EEC24C}</Project>
+      <Name>ArtworkSelectionContext</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Stubs\" />

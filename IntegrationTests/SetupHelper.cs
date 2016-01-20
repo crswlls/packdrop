@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Views;
 using GameplayContext;
 using GameplayContext.Ports;
 using ViewModels;
+using ArtworkSelectionContext;
 
 namespace IntegrationTests
 {
@@ -48,6 +49,7 @@ namespace IntegrationTests
             SimpleIoc.Default.Register<IGame, Game>();
             SimpleIoc.Default.Register<IGameTimer, GameTimerStub>();
             SimpleIoc.Default.Register<IGameDimensions, GameDimensionsStub>();
+            SimpleIoc.Default.Register<IArtworkRequester, ArtworkRequester> ();
             _locator = new ViewModelLocator();
         }
     }
