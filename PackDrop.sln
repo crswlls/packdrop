@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "SharedKerne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtworkSelectionContext", "ArtworkSelectionContext\ArtworkSelectionContext.csproj", "{5D433F04-4E3E-4017-917E-826906EEC24C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{DC3251D3-8509-4C34-A903-9FB639FBA8B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,5 +45,9 @@ Global
 		{D1917ADA-CBAA-4C54-A927-70C0B831AAF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1917ADA-CBAA-4C54-A927-70C0B831AAF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1917ADA-CBAA-4C54-A927-70C0B831AAF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC3251D3-8509-4C34-A903-9FB639FBA8B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC3251D3-8509-4C34-A903-9FB639FBA8B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC3251D3-8509-4C34-A903-9FB639FBA8B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC3251D3-8509-4C34-A903-9FB639FBA8B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

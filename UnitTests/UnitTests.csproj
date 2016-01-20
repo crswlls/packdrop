@@ -3,12 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{D1917ADA-CBAA-4C54-A927-70C0B831AAF4}</ProjectGuid>
+    <ProjectGuid>{DC3251D3-8509-4C34-A903-9FB639FBA8B4}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>GameplayContext</RootNamespace>
-    <AssemblyName>GameplayContext</AssemblyName>
-    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
+    <RootNamespace>UnitTests</RootNamespace>
+    <AssemblyName>UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,22 +28,26 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="IGame.cs" />
-    <Compile Include="Ports\IGameTimer.cs" />
-    <Compile Include="Ports\IGameDimensions.cs" />
-    <Compile Include="TileEventArgs.cs" />
-    <Compile Include="ScoreChecker.cs" />
+    <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="ScoreCheckerTests.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj">
       <Project>{60FCE737-D31E-4EE8-978D-62718E96023D}</Project>
       <Name>SharedKernel</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Ports\" />
+    <ProjectReference Include="..\GameplayContext\GameplayContext.csproj">
+      <Project>{D1917ADA-CBAA-4C54-A927-70C0B831AAF4}</Project>
+      <Name>GameplayContext</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
