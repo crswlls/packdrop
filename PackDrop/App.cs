@@ -20,6 +20,7 @@ namespace PackDrop
                     var nav = new NavigationService ();
                     nav.Configure(nameof(InGameViewModel), typeof(InGameActivity));
                     nav.Configure(nameof(GameOverViewModel), typeof(GameOverActivity));
+                    nav.Configure(nameof(ArtworkPreviewViewModel), typeof(ArtworkPreviewActivity));
 
                     SimpleIoc.Default.Register<IGameDimensions, GameDimensions>();
                     SimpleIoc.Default.Register<IDispatcher, AndroidDispatcher>();

@@ -22,6 +22,14 @@ namespace ViewModels
             }
         }
 
+        public ArtworkPreviewViewModel ArtworkPreviewVm
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ArtworkPreviewViewModel>();
+            }
+        }
+
         static ViewModelLocator()
         {
             Reset();
@@ -32,6 +40,7 @@ namespace ViewModels
             ServiceLocator.SetLocatorProvider (() => SimpleIoc.Default);
             SimpleIoc.Default.Register<MainViewModel> ();
             SimpleIoc.Default.Register<InGameViewModel> ();
+            SimpleIoc.Default.Register<ArtworkPreviewViewModel> ();
         }
     }
 }
