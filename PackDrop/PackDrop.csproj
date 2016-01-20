@@ -92,6 +92,7 @@
     <AndroidResource Include="Resources\layout\InGame.axml" />
     <AndroidResource Include="Resources\layout\GameOver.axml" />
     <AndroidResource Include="Resources\layout\ArtworkPreview.axml" />
+    <AndroidResource Include="Resources\drawable\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
