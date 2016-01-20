@@ -6,7 +6,7 @@ namespace GameplayContext
 {
     public interface IGame
     {
-        void StartGame(int numberColumns);
+        void StartGame(List<Uri> images, int numberColumns);
         void Continue();
         void MoveLeft();
         void MoveRight();

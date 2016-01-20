@@ -6,14 +6,19 @@ using System.Linq;
 
 namespace ArtworkSelectionContext
 {
-    public class ArtworkRequester
+    public class ArtworkRequester : IArtworkRequester
     {
-        public async Task<List<Uri>> GetArtwork()
+        private List<Uri> _artwork;
+
+        public List<Uri> Artwork { get { return _artwork; } }
+
+        public async Task<bool> GetArtwork()
         {
             var musicClient = new MusicClient(MixRadioApiConstants.MixRadioClientId);
             var artists = await musicClient.SearchArtistsAsync("David Bowie");
             var products = await musicClient.GetArtistProductsAsync(artists[0].Id, MixRadio.Types.Category.Album, itemsPerPage: 50);
-            return products.Result.Select(x => x.Thumb320Uri).ToList();
+            _artwork = products.Result.Select(x => x.Thumb320Uri).OrderBy(x => Guid.NewGuid()).Take(7).ToList();
+            return true;
         }
     }
 }

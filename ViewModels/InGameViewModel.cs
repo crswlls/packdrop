@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight.Views;
 using GameplayContext;
 using GameplayContext.Ports;
 using SharedKernel;
+using ArtworkSelectionContext;
 
 namespace ViewModels
 {
@@ -18,6 +19,7 @@ namespace ViewModels
         private INavigationService _navigationService;
         private IGameDimensions _gameDimensions;
         private IGameTimer _timer;
+        private IArtworkRequester _requester;
         private int _dropStep;
         private IDispatcher _dispatcher;
         private RelayCommand _moveRightCommand;
@@ -38,7 +40,7 @@ namespace ViewModels
         public ObservableCollection<Tile> Column8 { get; set; }
         public ObservableCollection<Tile> Column9 { get; set; }
 
-        public InGameViewModel(INavigationService navigation, IGame game, IGameDimensions gameDimensions, IGameTimer timer, IDispatcher dispatcher)
+        public InGameViewModel(INavigationService navigation, IGame game, IGameDimensions gameDimensions, IGameTimer timer, IDispatcher dispatcher, IArtworkRequester requester)
         {
             Column1 = new ObservableCollection<Tile>();
             Column2 = new ObservableCollection<Tile>();
@@ -65,6 +67,7 @@ namespace ViewModels
             _gameDimensions = gameDimensions;
             _timer = timer;
             _dispatcher = dispatcher;
+            _requester = requester;
             _dropStep = _gameDimensions.GameHeight / GameplayContext.Game.NumberStepsToDrop;
         }
 
@@ -131,6 +134,13 @@ namespace ViewModels
             }
         }
 
+        public string FallingTileImage {
+            get
+            {
+                return _game.FallingTile.ImageId;
+            }
+        }
+
         public int TileSize
         {
             get
@@ -143,7 +153,7 @@ namespace ViewModels
         {
             _timer.Tick += OnGameTimerFired;
             _timer.Start(GameSpeed);
-            _game.StartGame(NumberColumns);
+            _game.StartGame(_requester.Artwork, NumberColumns);
             //// _game.NewTile += OnNewTileCreated;
             _game.TileFell += OnTileFell;
             /*_game.TileMoved += OnTileMoved;*/

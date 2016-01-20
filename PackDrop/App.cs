@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Ioc;
 using GameplayContext;
 using GameplayContext.Ports;
 using PackDrop.PortAdapters;
+using ArtworkSelectionContext;
 
 namespace PackDrop
 {
@@ -28,6 +29,7 @@ namespace PackDrop
                     SimpleIoc.Default.Register<INavigationService> (() => nav);
                     SimpleIoc.Default.Register<IGame, Game> ();
                     SimpleIoc.Default.Register<IDialogService, DialogService> ();
+                    SimpleIoc.Default.Register<IArtworkRequester, ArtworkRequester> ();
 
                     _locator = new ViewModelLocator ();
                 }

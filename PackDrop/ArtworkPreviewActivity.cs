@@ -17,8 +17,6 @@ namespace PackDrop
     [Activity (Label = "ArtworkPreviewActivity")]            
     public class ArtworkPreviewActivity : Activity
     {
-        private Dictionary<string, Bitmap> _bitmapLookup = new Dictionary<string, Bitmap>();
-
         private ArtworkPreviewViewModel Vm
         {
             get
@@ -50,7 +48,7 @@ namespace PackDrop
             ThreadPool.QueueUserWorkItem(a => 
                 { 
                     DownloadBitmap(uri.AbsoluteUri);
-                    RunOnUiThread(() => imageView.SetImageBitmap (_bitmapLookup[uri.AbsoluteUri]));
+                    RunOnUiThread(() => imageView.SetImageBitmap (BitmapCache.Get(uri.AbsoluteUri)));
                 });
 
             return imageView;
@@ -58,7 +56,7 @@ namespace PackDrop
 
         private void DownloadBitmap(string url)
         {
-            if (_bitmapLookup.ContainsKey(url)) {
+            if (BitmapCache.Contains(url)) {
                 return;
             }
 
@@ -69,7 +67,7 @@ namespace PackDrop
                     connection.Connect();
                     using (var input = connection.InputStream)
                     {
-                        _bitmapLookup.Add(url, BitmapFactory.DecodeStream(input));
+                        BitmapCache.Add(url, BitmapFactory.DecodeStream(input));
                     }
                 }
             }

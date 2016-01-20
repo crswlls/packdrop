@@ -12,19 +12,21 @@ namespace ViewModels
     {
         private INavigationService _navService;
         private RelayCommand _goToGameCommand;
+        private IArtworkRequester _requester;
 
         public ObservableCollection<Uri> ImageUris { get; set; }
 
-        public ArtworkPreviewViewModel(INavigationService navService)
+        public ArtworkPreviewViewModel(INavigationService navService, IArtworkRequester requester)
         {
             _navService = navService;
+            _requester = requester;
             ImageUris = new ObservableCollection<Uri>();
         }
 
         public async Task InitAsync()
         {
-            var uris = await new ArtworkRequester().GetArtwork();
-            foreach (var imageUri in uris)
+            await _requester.GetArtwork();
+            foreach (var imageUri in _requester.Artwork)
             {
                 ImageUris.Add(imageUri);
             }

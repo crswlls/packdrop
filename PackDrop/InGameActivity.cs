@@ -15,7 +15,6 @@ namespace PackDrop
     [Activity (Label = "InGameActivity")]            
     public class InGameActivity : Activity
     {
-        private Dictionary<string, Bitmap> _bitmapLookup = new Dictionary<string, Bitmap>();
         private ImageView _fallingImage;
 
         private InGameViewModel Vm
@@ -35,7 +34,7 @@ namespace PackDrop
             FindViewById<Button>(Resource.Id.downBtn).SetCommand ("Click", Vm.DropCommand);
             var gameArea = FindViewById<RelativeLayout>(Resource.Id.gameArea);
 
-            _fallingImage = CreateNewImageTile();
+            //// _fallingImage = CreateNewImageTile();
             FindViewById<ListView>(Resource.Id.game1).LayoutParameters.Width = Vm.TileSize;
             FindViewById<ListView>(Resource.Id.game1).RequestLayout();
             FindViewById<ListView>(Resource.Id.game1).Adapter = Vm.Column1.GetAdapter(GetColumnView);
@@ -71,18 +70,28 @@ namespace PackDrop
 
             Vm.PropertyChanged += (sender, e) =>
             {
-                if (e.PropertyName == nameof(Vm.Game)) {
-                    _fallingImage.SetX(Vm.FallingTileXPos + padding);
-                    _fallingImage.SetY(Vm.FallingTileYPos);
+                if (e.PropertyName == nameof(Vm.Game))
+                {
+                    RunOnUiThread(() => 
+                    {
+
+                        if (_fallingImage == null)
+                        {
+                            _fallingImage = CreateNewImageTile(Vm.FallingTileImage);
+                        }
+
+                        _fallingImage.SetX(Vm.FallingTileXPos + padding);
+                        _fallingImage.SetY(Vm.FallingTileYPos);
+                    });
                 }
             };
         }
 
-        private ImageView CreateNewImageTile()
+        private ImageView CreateNewImageTile(string cacheId)
         {
             var layout = FindViewById<RelativeLayout>(Resource.Id.gameArea);
             var image = new ImageView(ApplicationContext);
-            image.SetImageBitmap(_bitmapLookup["temp"]);
+            image.SetImageBitmap(BitmapCache.Get(cacheId));
             image.LayoutParameters = new RelativeLayout.LayoutParams(Vm.TileSize, Vm.TileSize);
             layout.AddView(image);
             /*ThreadPool.QueueUserWorkItem(a => 
@@ -107,9 +116,10 @@ namespace PackDrop
         private View GetColumnView(int position, Tile tile, View convertView)
         {
             var imageView = new ImageView(Application.Context);
-            imageView.SetImageBitmap (_bitmapLookup["temp"]);
+            imageView.SetImageBitmap (BitmapCache.Get(tile.ImageId));
             imageView.LayoutParameters = new ListView.LayoutParams(Vm.TileSize, Vm.TileSize);
             _fallingImage.SetY(-150);
+            _fallingImage.SetImageBitmap(BitmapCache.Get(tile.ImageId));
 
             return imageView;
         }

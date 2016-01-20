@@ -11,6 +11,7 @@ namespace GameplayContext
         private int _numberColumns;
 
         private List<List<Tile>> _columns = new List<List<Tile>>();
+        private List<Uri> _images = new List<Uri>();
 
         public event EventHandler GameChanged;
         public event EventHandler<TileEventArgs> NewTile;
@@ -33,8 +34,9 @@ namespace GameplayContext
 
         public Tile FallingTile { get; private set; }
 
-        public void StartGame(int numberColumns)
+        public void StartGame(List<Uri> images, int numberColumns)
         {
+            _images = images;
             _numberColumns = numberColumns;
             for (int i = 0; i < _numberColumns;i++)
             {
@@ -109,7 +111,7 @@ namespace GameplayContext
                 _columns[FallingTile.XPos].Add(FallingTile);
             }
 
-            FallingTile = new Tile { IsFalling = true, XPos = 4, YPos = 0 };
+            FallingTile = new Tile { IsFalling = true, XPos = 4, YPos = 0, ImageId = _images.OrderBy(x => Guid.NewGuid()).First().AbsoluteUri };
         }
 
         private bool IsGameOver
