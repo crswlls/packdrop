@@ -7,7 +7,7 @@ namespace GameplayContext
 {
     public class Game : IGame
     {
-        private const int NumberSteps = 14;
+        private const int NumberSteps = 9;
         private int _numberColumns;
 
         private List<List<Tile>> _columns = new List<List<Tile>>();
@@ -108,7 +108,7 @@ namespace GameplayContext
             if (FallingTile != null)
             {
                 FallingTile.IsFalling = false;
-                _columns[FallingTile.XPos].Add(FallingTile);
+                _columns[FallingTile.XPos].Insert(0, FallingTile);
             }
 
             FallingTile = new Tile { IsFalling = true, XPos = 4, YPos = 0, ImageId = _images.OrderBy(x => Guid.NewGuid()).First().AbsoluteUri };

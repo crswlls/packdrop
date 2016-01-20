@@ -156,7 +156,7 @@ namespace ViewModels
             _game.StartGame(_requester.Artwork, NumberColumns);
             //// _game.NewTile += OnNewTileCreated;
             _game.TileFell += OnTileFell;
-            /*_game.TileMoved += OnTileMoved;*/
+            _game.NewTile += OnNewTile;
             _game.TileStopped += OnTileStopped;
             _game.GameOver += OnGameOver;
         }
@@ -165,14 +165,15 @@ namespace ViewModels
         {
             _dispatcher.RunOnUiThread(() => 
             {
-                Columns[e.Tile.XPos].Add(e.Tile);
+                // HACK: This duplicates the 'insert at 0 behaviour in the model'
+                Columns[e.Tile.XPos].Insert(0, e.Tile);
             });
         }
 
-        /*private void OnTileMoved(object sender, TileEventArgs e)
+        private void OnNewTile(object sender, TileEventArgs e)
         {
-            FallingTileXPos = e.Tile.XPos * _itemHeight;
-        }*/
+            RaisePropertyChanged(nameof(FallingTileImage));
+        }
 
         /*private void OnNewTileCreated(object sender, TileEventArgs e)
         {

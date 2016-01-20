@@ -84,6 +84,15 @@ namespace PackDrop
                         _fallingImage.SetY(Vm.FallingTileYPos);
                     });
                 }
+
+                if (e.PropertyName == nameof(Vm.FallingTileImage))
+                {
+                    RunOnUiThread(() => 
+                    {
+                        _fallingImage.SetY(-150);
+                        _fallingImage.SetImageBitmap(BitmapCache.Get(Vm.FallingTileImage));
+                    });
+                }
             };
         }
 
@@ -118,9 +127,6 @@ namespace PackDrop
             var imageView = new ImageView(Application.Context);
             imageView.SetImageBitmap (BitmapCache.Get(tile.ImageId));
             imageView.LayoutParameters = new ListView.LayoutParams(Vm.TileSize, Vm.TileSize);
-            _fallingImage.SetY(-150);
-            _fallingImage.SetImageBitmap(BitmapCache.Get(tile.ImageId));
-
             return imageView;
         }
     }
