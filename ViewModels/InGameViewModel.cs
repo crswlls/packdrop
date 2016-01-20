@@ -110,14 +110,6 @@ namespace ViewModels
             _game.Drop();
         }
 
-        public IGame Game
-        {
-            get
-            {
-                return _game;
-            }
-        }
-
         public int FallingTileYPos
         {
             get
@@ -154,7 +146,6 @@ namespace ViewModels
             _timer.Tick += OnGameTimerFired;
             _timer.Start(GameSpeed);
             _game.StartGame(_requester.Artwork, NumberColumns);
-            //// _game.NewTile += OnNewTileCreated;
             _game.TileFell += OnTileFell;
             _game.NewTile += OnNewTile;
             _game.TileStopped += OnTileStopped;
@@ -175,11 +166,6 @@ namespace ViewModels
             RaisePropertyChanged(nameof(FallingTileImage));
         }
 
-        /*private void OnNewTileCreated(object sender, TileEventArgs e)
-        {
-            RaisePropertyChanged(nameof(Column0));
-        }*/
-
         private void OnGameTimerFired(object sender, EventArgs e)
         {
             _game.Continue();
@@ -187,7 +173,7 @@ namespace ViewModels
 
         private void OnTileFell(object sender, TileEventArgs e)
         {
-            RaisePropertyChanged(nameof(Game));
+            RaisePropertyChanged(nameof(FallingTileYPos));
         }
 
         private void OnGameOver(object sender, EventArgs e)

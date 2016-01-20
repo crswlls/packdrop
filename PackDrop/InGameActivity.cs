@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight.Helpers;
 using Java.Net;
 using SharedKernel;
 using ViewModels;
+using System.Collections.ObjectModel;
 
 namespace PackDrop
 {
@@ -32,68 +33,65 @@ namespace PackDrop
             FindViewById<Button>(Resource.Id.rightBtn).SetCommand ("Click", Vm.MoveRightCommand);
             FindViewById<Button>(Resource.Id.leftBtn).SetCommand ("Click", Vm.MoveLeftCommand);
             FindViewById<Button>(Resource.Id.downBtn).SetCommand ("Click", Vm.DropCommand);
-            var gameArea = FindViewById<RelativeLayout>(Resource.Id.gameArea);
 
-            //// _fallingImage = CreateNewImageTile();
-            FindViewById<ListView>(Resource.Id.game1).LayoutParameters.Width = Vm.TileSize;
-            FindViewById<ListView>(Resource.Id.game1).RequestLayout();
-            FindViewById<ListView>(Resource.Id.game1).Adapter = Vm.Column1.GetAdapter(GetColumnView);
-            ////FindViewById<ListView>(Resource.Id.game1).SetBackgroundColor(Color.AliceBlue);
-            FindViewById<ListView>(Resource.Id.game2).Adapter = Vm.Column2.GetAdapter(GetColumnView);
-            FindViewById<ListView>(Resource.Id.game2).LayoutParameters.Width = Vm.TileSize;
-            FindViewById<ListView>(Resource.Id.game2).RequestLayout();
-            ////FindViewById<ListView>(Resource.Id.game2).SetBackgroundColor(Color.Beige);
-            FindViewById<ListView>(Resource.Id.game3).Adapter = Vm.Column3.GetAdapter(GetColumnView);
-            FindViewById<ListView>(Resource.Id.game3).LayoutParameters.Width = Vm.TileSize;
-            FindViewById<ListView>(Resource.Id.game3).RequestLayout();
-            FindViewById<ListView>(Resource.Id.game4).Adapter = Vm.Column4.GetAdapter(GetColumnView);
-            FindViewById<ListView>(Resource.Id.game4).LayoutParameters.Width = Vm.TileSize;
-            FindViewById<ListView>(Resource.Id.game4).RequestLayout();
-            FindViewById<ListView>(Resource.Id.game5).Adapter = Vm.Column5.GetAdapter(GetColumnView);
-            FindViewById<ListView>(Resource.Id.game5).LayoutParameters.Width = Vm.TileSize;
-            FindViewById<ListView>(Resource.Id.game5).RequestLayout();
-            FindViewById<ListView>(Resource.Id.game6).Adapter = Vm.Column6.GetAdapter(GetColumnView);
-            FindViewById<ListView>(Resource.Id.game6).LayoutParameters.Width = Vm.TileSize;
-            FindViewById<ListView>(Resource.Id.game6).RequestLayout();
-            //// FindViewById<ListView>(Resource.Id.game6).SetBackgroundColor(Color.Chocolate);
-            FindViewById<ListView>(Resource.Id.game7).Adapter = Vm.Column7.GetAdapter(GetColumnView);
-            FindViewById<ListView>(Resource.Id.game7).LayoutParameters.Width = Vm.TileSize;
-            FindViewById<ListView>(Resource.Id.game7).RequestLayout();
-            FindViewById<ListView>(Resource.Id.game8).Adapter = Vm.Column8.GetAdapter(GetColumnView);
-            FindViewById<ListView>(Resource.Id.game8).LayoutParameters.Width = Vm.TileSize;
-            FindViewById<ListView>(Resource.Id.game8).RequestLayout();
-            FindViewById<ListView>(Resource.Id.game9).Adapter = Vm.Column9.GetAdapter(GetColumnView);
-            FindViewById<ListView>(Resource.Id.game9).LayoutParameters.Width = Vm.TileSize;
-            FindViewById<ListView>(Resource.Id.game9).RequestLayout();
+            SetupListView(Resource.Id.game1, Vm.Column1);
+            SetupListView(Resource.Id.game2, Vm.Column2);
+            SetupListView(Resource.Id.game3, Vm.Column3);
+            SetupListView(Resource.Id.game4, Vm.Column4);
+            SetupListView(Resource.Id.game5, Vm.Column5);
+            SetupListView(Resource.Id.game6, Vm.Column6);
+            SetupListView(Resource.Id.game7, Vm.Column7);
+            SetupListView(Resource.Id.game8, Vm.Column8);
+            SetupListView(Resource.Id.game9, Vm.Column9);
 
+            // HACK : Duplicates 10dp padding for the list views
             var padding = (int)(10 * Application.Context.Resources.DisplayMetrics.Density);
 
+            // HACK: Look at a nicer way to do this with MVVMLight
             Vm.PropertyChanged += (sender, e) =>
             {
-                if (e.PropertyName == nameof(Vm.Game))
+                if (e.PropertyName == nameof(Vm.FallingTileYPos))
                 {
-                    RunOnUiThread(() => 
-                    {
-
-                        if (_fallingImage == null)
-                        {
-                            _fallingImage = CreateNewImageTile(Vm.FallingTileImage);
-                        }
-
-                        _fallingImage.SetX(Vm.FallingTileXPos + padding);
-                        _fallingImage.SetY(Vm.FallingTileYPos);
-                    });
+                    MoveTile(padding);
                 }
 
                 if (e.PropertyName == nameof(Vm.FallingTileImage))
                 {
-                    RunOnUiThread(() => 
-                    {
-                        _fallingImage.SetY(-150);
-                        _fallingImage.SetImageBitmap(BitmapCache.Get(Vm.FallingTileImage));
-                    });
+                    NewTile();
                 }
             };
+        }
+
+        protected override void OnResume ()
+        {
+            base.OnResume ();
+            Vm.Initialise ();
+        }
+
+        private void SetupListView(int resourceId, ObservableCollection<Tile> column)
+        {
+            FindViewById<ListView> (resourceId).Adapter = column.GetAdapter (GetColumnView);
+            FindViewById<ListView> (resourceId).LayoutParameters.Width = Vm.TileSize;
+            FindViewById<ListView> (resourceId).RequestLayout ();
+        }
+
+        private void MoveTile(int padding)
+        {
+            RunOnUiThread (() =>  {
+                if (_fallingImage == null) {
+                    _fallingImage = CreateNewImageTile (Vm.FallingTileImage);
+                }
+                _fallingImage.SetX (Vm.FallingTileXPos + padding);
+                _fallingImage.SetY (Vm.FallingTileYPos);
+            });
+        }
+
+        private void NewTile()
+        {
+            RunOnUiThread (() =>  {
+                _fallingImage.SetY (-150);
+                _fallingImage.SetImageBitmap (BitmapCache.Get (Vm.FallingTileImage));
+            });
         }
 
         private ImageView CreateNewImageTile(string cacheId)
@@ -103,23 +101,7 @@ namespace PackDrop
             image.SetImageBitmap(BitmapCache.Get(cacheId));
             image.LayoutParameters = new RelativeLayout.LayoutParams(Vm.TileSize, Vm.TileSize);
             layout.AddView(image);
-            /*ThreadPool.QueueUserWorkItem(a => 
-            {
-                DownloadBitmap("temp");
-                RunOnUiThread(() => 
-                    {
-                        image.SetImageBitmap(_bitmapLookup["temp"]);
-                        image.LayoutParameters = new RelativeLayout.LayoutParams(Vm.TileSize, Vm.TileSize);
-                        layout.AddView(image);
-                    });
-            });*/
             return image;
-        }
-
-        protected override void OnResume ()
-        {
-            base.OnResume ();
-            Vm.Initialise ();
         }
 
         private View GetColumnView(int position, Tile tile, View convertView)
