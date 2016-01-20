@@ -37,6 +37,7 @@
     <Compile Include="Ports\IGameDimensions.cs" />
     <Compile Include="TileEventArgs.cs" />
     <Compile Include="ScoreChecker.cs" />
+    <Compile Include="Coordinate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

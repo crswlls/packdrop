@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SharedKernel;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace GameplayContext
 {
@@ -10,7 +11,7 @@ namespace GameplayContext
         private const int NumberSteps = 9;
         private int _numberColumns;
 
-        private List<List<Tile>> _columns = new List<List<Tile>>();
+        private List<ObservableCollection<Tile>> _columns;
         private List<Uri> _images = new List<Uri>();
 
         public event EventHandler GameChanged;
@@ -34,14 +35,11 @@ namespace GameplayContext
 
         public Tile FallingTile { get; private set; }
 
-        public void StartGame(List<Uri> images, int numberColumns)
+        public void StartGame(List<Uri> images, List<ObservableCollection<Tile>> columns)
         {
+            _columns = columns;
             _images = images;
-            _numberColumns = numberColumns;
-            for (int i = 0; i < _numberColumns;i++)
-            {
-                _columns.Add(new List<Tile>());
-            }
+            _numberColumns = columns.Count();
             CreateNewFallingTile();
         }
 
@@ -68,16 +66,18 @@ namespace GameplayContext
             FallingTile.YPos = NumberSteps - _columns[FallingTile.XPos].Count;
         }
 
-        public List<Tile> GetColumn(int columnNumber)
-        {
-            return _columns[columnNumber];
-        }
-
         public void Continue()
         {
             if (IsNewTileRequired)
             {
                 TileStopped?.Invoke(this, new TileEventArgs(FallingTile));
+                if (FallingTile != null)
+                {
+                    FallingTile.IsFalling = false;
+                    _columns[FallingTile.XPos].Insert(0, FallingTile);
+                }
+
+                new ScoreChecker().CheckScoreAndUpdate(_columns);
 
                 if (IsGameOver)
                 {
@@ -105,12 +105,6 @@ namespace GameplayContext
 
         private void CreateNewFallingTile()
         {
-            if (FallingTile != null)
-            {
-                FallingTile.IsFalling = false;
-                _columns[FallingTile.XPos].Insert(0, FallingTile);
-            }
-
             FallingTile = new Tile { IsFalling = true, XPos = 4, YPos = 0, ImageId = _images.OrderBy(x => Guid.NewGuid()).First().AbsoluteUri };
         }
 

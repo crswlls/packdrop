@@ -145,20 +145,10 @@ namespace ViewModels
         {
             _timer.Tick += OnGameTimerFired;
             _timer.Start(GameSpeed);
-            _game.StartGame(_requester.Artwork, NumberColumns);
+            _game.StartGame(_requester.Artwork, Columns);
             _game.TileFell += OnTileFell;
             _game.NewTile += OnNewTile;
-            _game.TileStopped += OnTileStopped;
             _game.GameOver += OnGameOver;
-        }
-
-        private void OnTileStopped(object sender, TileEventArgs e)
-        {
-            _dispatcher.RunOnUiThread(() => 
-            {
-                // HACK: This duplicates the 'insert at 0 behaviour in the model'
-                Columns[e.Tile.XPos].Insert(0, e.Tile);
-            });
         }
 
         private void OnNewTile(object sender, TileEventArgs e)
@@ -168,7 +158,10 @@ namespace ViewModels
 
         private void OnGameTimerFired(object sender, EventArgs e)
         {
-            _game.Continue();
+            _dispatcher.RunOnUiThread(() => 
+            {
+                _game.Continue();
+            });
         }
 
         private void OnTileFell(object sender, TileEventArgs e)

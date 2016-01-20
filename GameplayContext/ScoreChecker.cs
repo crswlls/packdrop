@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using SharedKernel;
+using System.Collections.ObjectModel;
 
 namespace GameplayContext
 {
     public class ScoreChecker
     {
-        public int CheckScoreAndUpdate(List<List<Tile>> columns)
+        public int CheckScoreAndUpdate(List<ObservableCollection<Tile>> columns)
         {
             var score = 0;
 
@@ -20,7 +21,7 @@ namespace GameplayContext
             {
                 for (int j = 0; j < columns[i].Count;j++)
                 {
-                    if (columns[i][j].ImageId == lastItemChecked)
+                    if (j != 0 && columns[i][j].ImageId == lastItemChecked)
                     {
                         numberVerticalItemsInSeries++;
                     }
@@ -29,11 +30,12 @@ namespace GameplayContext
                         if (numberVerticalItemsInSeries > 2)
                         {
                             // We just finished finding a match
-                            var columnToLookAt = j == 0 ? i - 1 : i;
-                            var indexOfLastMatch = j == 0 ? columns[columnToLookAt].Count - 1 : j - 1;
-                            for (int a = indexOfLastMatch; a > (indexOfLastMatch - numberVerticalItemsInSeries); a--)
+                            var matchFinishedOnPreviousColumn = j == 0;
+                            var columnToLookAt = matchFinishedOnPreviousColumn ? i - 1 : i;
+                            var xIndexOfLastMatch = matchFinishedOnPreviousColumn ? columns[columnToLookAt].Count - 1 : j - 1;
+                            for (int a = xIndexOfLastMatch; a > (xIndexOfLastMatch - numberVerticalItemsInSeries); a--)
                             {
-                                coordsToRemove.Add(new Coordinate(columnToLookAt,a));
+                                coordsToRemove.Add(new Coordinate(columnToLookAt, a));
                             }
 
                             score += CalculateScore(numberVerticalItemsInSeries);
@@ -55,23 +57,11 @@ namespace GameplayContext
             return 100 + ((numberHorizontalItemsInSeries - 3) * 150);
         }
 
-        private void DoRemove (List<List<Tile>> columns, List<Coordinate> coordsToRemove)
+        private void DoRemove (List<ObservableCollection<Tile>> columns, List<Coordinate> coordsToRemove)
         {
             foreach (var coord in coordsToRemove.OrderByDescending(x => x.Y))
             {
                 columns[coord.X].RemoveAt(coord.Y);
-            }
-        }
-
-        private class Coordinate
-        {
-            public int X { get; private set;}
-            public int Y { get; private set;}
-
-            public Coordinate(int x, int y)
-            {
-                X = x;
-                Y = y;
             }
         }
     }
