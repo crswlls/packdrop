@@ -12,13 +12,21 @@ namespace ArtworkSelectionContext
 
         public List<Uri> Artwork { get { return _artwork; } }
 
-        public async Task<bool> GetArtwork()
+        public async Task<bool> GetArtwork(string searchTerm, int numberItems)
         {
             var musicClient = new MusicClient(MixRadioApiConstants.MixRadioClientId);
-            var artists = await musicClient.SearchArtistsAsync("David Bowie");
-            var products = await musicClient.GetArtistProductsAsync(artists[0].Id, MixRadio.Types.Category.Album, itemsPerPage: 50);
-            _artwork = products.Result.Select(x => x.Thumb320Uri).OrderBy(x => Guid.NewGuid()).Take(7).ToList();
-            return true;
+            var artists = await musicClient.SearchArtistsAsync(searchTerm);
+            if (artists.Succeeded && artists.Count > 0)
+            {
+                var products = await musicClient.GetArtistProductsAsync(artists[0].Id, MixRadio.Types.Category.Album, itemsPerPage: 50);
+                if (products.Succeeded && products.Count >= numberItems)
+                {
+                    _artwork = products.Result.Select(x => x.Thumb320Uri).OrderBy(x => Guid.NewGuid()).Take(numberItems).ToList();
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

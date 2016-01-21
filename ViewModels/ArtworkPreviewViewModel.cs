@@ -10,8 +10,11 @@ namespace ViewModels
 {
     public class ArtworkPreviewViewModel : ViewModelBase
     {
+        private const int NumberImagesRequired = 7;
+
         private INavigationService _navService;
         private RelayCommand _goToGameCommand;
+        private RelayCommand<string> _searchCommand;
         private IArtworkRequester _requester;
         private bool _haveImages;
 
@@ -24,9 +27,27 @@ namespace ViewModels
             ImageUris = new ObservableCollection<Uri>();
         }
 
-        public async Task InitAsync()
+        public RelayCommand GoToGameCommand
         {
-            if (await _requester.GetArtwork())
+            get
+            {
+                return _goToGameCommand ?? (_goToGameCommand = new RelayCommand(() => _navService.NavigateTo(nameof(InGameViewModel)),
+                                                                                () => _haveImages));
+            }
+        }
+
+        public RelayCommand<string> SearchCommand
+        {
+            get
+            {
+                return _searchCommand ?? (_searchCommand = new RelayCommand<string>(DoSearch));
+            }
+        }
+
+        private async void DoSearch(string text)
+        {
+            ImageUris.Clear();
+            if (await _requester.GetArtwork(text, NumberImagesRequired))
             {
                 foreach (var imageUri in _requester.Artwork)
                 {
@@ -34,15 +55,6 @@ namespace ViewModels
                     _haveImages = true;
                     GoToGameCommand.RaiseCanExecuteChanged();
                 }
-            }
-        }
-
-        public RelayCommand GoToGameCommand
-        {
-            get
-            {
-                return _goToGameCommand ?? (_goToGameCommand = new RelayCommand(() => _navService.NavigateTo(nameof(InGameViewModel)),
-                                                                                () => _haveImages));
             }
         }
     }

@@ -17,6 +17,9 @@ namespace PackDrop
     [Activity (Label = "PackDrop", Icon = "@drawable/icon")]            
     public class ArtworkPreviewActivity : Activity
     {
+        public EditText SearchText { get;set; }
+        public Binding TextBinding { get;set; }
+
         private ArtworkPreviewViewModel Vm
         {
             get
@@ -25,18 +28,21 @@ namespace PackDrop
             }
         }
 
-        protected override async void OnCreate (Bundle savedInstanceState)
+        protected override void OnCreate (Bundle savedInstanceState)
         {
             base.OnCreate (savedInstanceState);
 
             // Create your application here
             SetContentView(Resource.Layout.ArtworkPreview);
-            await Vm.InitAsync();
+            //// await Vm.InitAsync();
 
-            FindViewById<Gallery>(Resource.Id.gallery).Adapter = Vm.ImageUris.GetAdapter(GetArtworkView);
+            FindViewById<GridView>(Resource.Id.gridview).Adapter = Vm.ImageUris.GetAdapter(GetArtworkView);
             var btn = FindViewById<Button>(Resource.Id.Continue);
             btn.SetCommand ("Click", Vm.GoToGameCommand);
-            //// btn.SetBinding(() => btn.Enabled, () => Vm.GoToGameCommand.CanExecute);
+            SearchText = FindViewById<EditText>(Resource.Id.editText);
+            var searchButton = FindViewById<Button>(Resource.Id.searchBtn);
+            TextBinding = this.SetBinding(() => SearchText.Text, BindingMode.TwoWay);
+            searchButton.SetCommand("Click", Vm.SearchCommand, TextBinding);
         }
 
         private View GetArtworkView(int position, Uri uri, View convertView)

@@ -77,9 +77,6 @@ namespace PackDrop
 			// aapt resource value: 0x7f060002
 			public const int editText = 2131099650;
 			
-			// aapt resource value: 0x7f060003
-			public const int gallery = 2131099651;
-			
 			// aapt resource value: 0x7f06000b
 			public const int game1 = 2131099659;
 			
@@ -113,8 +110,11 @@ namespace PackDrop
 			// aapt resource value: 0x7f060005
 			public const int gameLayout = 2131099653;
 			
-			// aapt resource value: 0x7f060001
-			public const int introText = 2131099649;
+			// aapt resource value: 0x7f060003
+			public const int gridview = 2131099651;
+			
+			// aapt resource value: 0x7f060016
+			public const int introText = 2131099670;
 			
 			// aapt resource value: 0x7f060008
 			public const int leftBtn = 2131099656;
@@ -130,6 +130,9 @@ namespace PackDrop
 			
 			// aapt resource value: 0x7f060007
 			public const int scoreLbl = 2131099655;
+			
+			// aapt resource value: 0x7f060001
+			public const int searchBtn = 2131099649;
 			
 			static Id()
 			{

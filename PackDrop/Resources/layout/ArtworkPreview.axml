@@ -4,24 +4,28 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <TextView
-        android:id="@+id/introText"
+    <Button
+        android:id="@+id/searchBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search for an artist"
+        android:text="Search"
         android:layout_alignParentTop="true"
-        android:padding="10dp" />
+        android:layout_alignParentRight="true" />
     <EditText
         android:id="@+id/editText"
         android:layout_width="fill_parent"
+        android:hint="Search for an artist"
         android:layout_height="wrap_content"
-        android:layout_below="@id/introText" />
-    <Gallery
-        android:id="@+id/gallery"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@id/searchBtn"
+        android:imeOptions="actionDone" />
+    <GridView
+        android:id="@+id/gridview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editText"
-        android:layout_alignParentLeft="true" />
+        android:columnWidth="80dp"
+        android:numColumns="auto_fit"
+        android:layout_below="@id/editText" />
     <Button
         android:id="@+id/Continue"
         android:layout_width="fill_parent"

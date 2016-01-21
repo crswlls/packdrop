@@ -9,7 +9,7 @@ namespace ArtworkSelectionContext
 	public interface IArtworkRequester
 	{
         List<Uri> Artwork { get; }
-        Task<bool> GetArtwork();
+        Task<bool> GetArtwork(string searchTerm, int numberItems);
 	}   
 }
 
