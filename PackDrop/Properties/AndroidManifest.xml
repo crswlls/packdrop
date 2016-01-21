@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.crswlls.packdrop">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.2" package="com.crswlls.packdrop" android:versionCode="3">
 	<uses-sdk android:minSdkVersion="19" />
 	<uses-permission android:name="android.permission.INTERNET" />
-    <compatible-screens>
-        <screen android:screenSize="small" android:screenDensity="ldpi" />
-        <screen android:screenSize="small" android:screenDensity="mdpi" />
-        <screen android:screenSize="small" android:screenDensity="hdpi" />
-        <screen android:screenSize="small" android:screenDensity="xhdpi" />
-    </compatible-screens>
+	<compatible-screens>
+		<screen android:screenSize="small" android:screenDensity="ldpi" />
+		<screen android:screenSize="small" android:screenDensity="mdpi" />
+		<screen android:screenSize="small" android:screenDensity="hdpi" />
+		<screen android:screenSize="small" android:screenDensity="xhdpi" />
+		<screen android:screenSize="normal" android:screenDensity="ldpi" />
+		<screen android:screenSize="normal" android:screenDensity="mdpi" />
+		<screen android:screenSize="normal" android:screenDensity="hdpi" />
+		<screen android:screenSize="normal" android:screenDensity="xhdpi" />
+	</compatible-screens>
 	<application android:allowBackup="true" android:icon="@drawable/icon" android:label="@string/app_name"></application>
 </manifest>
