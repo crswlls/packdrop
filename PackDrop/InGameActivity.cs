@@ -33,9 +33,9 @@ namespace PackDrop
         {
             base.OnCreate (savedInstanceState);
             SetContentView (Resource.Layout.InGame);
-            FindViewById<Button>(Resource.Id.rightBtn).SetCommand ("Click", Vm.MoveRightCommand);
-            FindViewById<Button>(Resource.Id.leftBtn).SetCommand ("Click", Vm.MoveLeftCommand);
-            FindViewById<Button>(Resource.Id.downBtn).SetCommand ("Click", Vm.DropCommand);
+            FindViewById<ImageButton>(Resource.Id.rightBtn).SetCommand ("Click", Vm.MoveRightCommand);
+            FindViewById<ImageButton>(Resource.Id.leftBtn).SetCommand ("Click", Vm.MoveLeftCommand);
+            FindViewById<ImageButton>(Resource.Id.downBtn).SetCommand ("Click", Vm.DropCommand);
             ScoreValue = FindViewById<TextView>(Resource.Id.scoreValue);
             ScoreBinding = this.SetBinding(() => Vm.Score, () => ScoreValue.Text);
 

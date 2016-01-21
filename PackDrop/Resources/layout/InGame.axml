@@ -23,27 +23,30 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/scoreLbl"
             android:layout_alignParentTop="true" />
-        <Button
+        <ImageButton
             android:id="@+id/leftBtn"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_width="wrap_content"
-            android:text="L"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true" />
-        <Button
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/leftArrow"
+            android:background="@null" />
+        <ImageButton
             android:id="@+id/downBtn"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_width="wrap_content"
-            android:text="D"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-        <Button
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/downArrow"
+            android:background="@null" />
+        <ImageButton
             android:id="@+id/rightBtn"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_width="wrap_content"
-            android:text="R"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:src="@drawable/rightArrow"
+            android:background="@null" />
         <ListView
             android:id="@+id/game1"
             android:layout_width="wrap_content"

@@ -95,6 +95,9 @@
     <AndroidResource Include="Resources\layout\ArtworkPreview.axml" />
     <AndroidResource Include="Resources\drawable\logo.png" />
     <AndroidResource Include="Resources\drawable\icon.png" />
+    <AndroidResource Include="Resources\drawable\downArrow.png" />
+    <AndroidResource Include="Resources\drawable\rightArrow.png" />
+    <AndroidResource Include="Resources\drawable\leftarrow.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
