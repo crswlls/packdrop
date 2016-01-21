@@ -41,6 +41,11 @@ namespace GameplayContext
 
         public void StartGame(List<Uri> images, List<ObservableCollection<Tile>> columns)
         {
+            foreach (var column in columns)
+            {
+                column.Clear();
+            }
+            Score = 0;
             _columns = columns;
             _images = images;
             _numberColumns = columns.Count();
