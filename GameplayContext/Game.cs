@@ -8,7 +8,7 @@ namespace GameplayContext
 {
     public class Game : IGame
     {
-        private const int NumberSteps = 9;
+        private const int NumberSteps = 10;
         private int _numberColumns;
 
         private List<ObservableCollection<Tile>> _columns;

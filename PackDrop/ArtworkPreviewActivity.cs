@@ -49,7 +49,7 @@ namespace PackDrop
         {
             var imageView = new ImageView(Application.Context);
 
-            imageView.LayoutParameters = new Gallery.LayoutParams (150, 100);
+            imageView.LayoutParameters = new GridView.LayoutParams (100, 100);
             imageView.SetScaleType (ImageView.ScaleType.FitXy);
 
             ThreadPool.QueueUserWorkItem(a => 
