@@ -11,6 +11,25 @@ namespace UnitTests
     public class ScoreCheckerTests
     {
         [Test]
+        public void NoItemsNoScore()
+        {
+            // Arrange
+            var column1 = new ObservableCollection<Tile>();
+            var column2 = new ObservableCollection<Tile>();
+            var column3 = new ObservableCollection<Tile>();
+            var columns = new List<ObservableCollection<Tile>>() { column1, column2, column3 };
+
+            // Act
+            var score = new ScoreChecker().CheckScoreAndUpdate(columns);
+
+            // Assert
+            Assert.AreEqual(0, score);
+            Assert.AreEqual(0, column1.Count);
+            Assert.AreEqual(0, column3.Count);
+            Assert.AreEqual(0, column2.Count);
+        }
+
+        [Test]
         public void ThreeInAColumnIsAMatch()
         {
             // Arrange
@@ -103,7 +122,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void MatchInFinalColumn()
+        public void MatchInFinalColumnIsAScore()
         {
             // Arrange
             var column1 = new ObservableCollection<Tile>();
@@ -127,14 +146,13 @@ namespace UnitTests
         }
 
         [Test]
-        public void MatchButEmptyFinalColumn()
+        public void MatchButEmptyFinalColumnIsAScore()
         {
             // Arrange
             var column1 = new ObservableCollection<Tile>();
             var column2 = new ObservableCollection<Tile>();
             var column3 = new ObservableCollection<Tile>(){ Tile("1"), Tile("2"), Tile("2"), Tile("2") };
             var column4 = new ObservableCollection<Tile>();
-
             var column5 = new ObservableCollection<Tile>();
             var columns = new List<ObservableCollection<Tile>>() { column1, column2, column3, column4, column5 };
 
