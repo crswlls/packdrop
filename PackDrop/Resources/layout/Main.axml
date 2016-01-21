@@ -18,5 +18,5 @@
         android:text="@string/tap_anywhere"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:paddingBottom="20dp" />
+        android:padding="80dp" />
 </RelativeLayout>

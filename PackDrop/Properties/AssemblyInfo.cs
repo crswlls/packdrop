@@ -10,7 +10,7 @@ using Android.App;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
 [assembly: AssemblyProduct ("")]
-[assembly: AssemblyCopyright ("chrisw")]
+[assembly: AssemblyCopyright ("crswlls")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
@@ -26,3 +26,8 @@ using Android.App;
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]
 
+#if DEBUG
+[assembly: Application(Debuggable=true, Icon = "@drawable/icon")]
+#else
+[assembly: Application(Debuggable=false, Icon = "@drawable/icon")]
+#endif
