@@ -6,11 +6,15 @@ namespace IntegrationTests
     public class GameTimerStub : IGameTimer
     {
         public event EventHandler Tick;
-        public bool _running;
+        private bool _running;
 
         public void Start(int gameSpeed)
         {
             _running = true;
+        }
+
+        public void UpdateInterval(int newSpeed)
+        {
         }
 
         public void DoTick()

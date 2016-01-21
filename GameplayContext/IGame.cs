@@ -12,6 +12,8 @@ namespace GameplayContext
         void MoveLeft();
         void MoveRight();
         void Drop ();
+        int Score { get; }
+        int SpeedLevel { get; }
         Tile FallingTile { get; }
         event EventHandler GameOver;
         event EventHandler<TileEventArgs> NewTile;

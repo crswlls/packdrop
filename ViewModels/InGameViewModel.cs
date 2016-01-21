@@ -13,7 +13,7 @@ namespace ViewModels
 {
     public class InGameViewModel : ViewModelBase
     {
-        private const int GameSpeed = 250;
+        private const int GameSpeed = 500;
 
         private IGame _game;
         private INavigationService _navigationService;
@@ -25,6 +25,7 @@ namespace ViewModels
         private RelayCommand _moveRightCommand;
         private RelayCommand _moveLeftCommand;
         private RelayCommand _dropCommand;
+        private string _score;
 
         private List<ObservableCollection<Tile>> Columns = new List<ObservableCollection<Tile>>();
 
@@ -69,6 +70,19 @@ namespace ViewModels
             _dispatcher = dispatcher;
             _requester = requester;
             _dropStep = _gameDimensions.GameHeight / GameplayContext.Game.NumberStepsToDrop;
+        }
+
+        public string Score
+        {
+            get
+            {
+                return _score;
+            }
+            set
+            {
+                _score = value;
+                RaisePropertyChanged(nameof(Score));
+            }
         }
 
         public RelayCommand MoveLeftCommand
@@ -154,6 +168,8 @@ namespace ViewModels
         private void OnNewTile(object sender, TileEventArgs e)
         {
             RaisePropertyChanged(nameof(FallingTileImage));
+            Score = _game.Score.ToString();
+            _timer.UpdateInterval(GameSpeed - _game.SpeedLevel);
         }
 
         private void OnGameTimerFired(object sender, EventArgs e)

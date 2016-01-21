@@ -35,6 +35,10 @@ namespace GameplayContext
 
         public Tile FallingTile { get; private set; }
 
+        public int Score { get; private set; }
+
+        public int SpeedLevel { get; private set; }
+
         public void StartGame(List<Uri> images, List<ObservableCollection<Tile>> columns)
         {
             _columns = columns;
@@ -77,7 +81,7 @@ namespace GameplayContext
                     _columns[FallingTile.XPos].Insert(0, FallingTile);
                 }
 
-                new ScoreChecker().CheckScoreAndUpdate(_columns);
+                Score += new ScoreChecker().CheckScoreAndUpdate(_columns);
 
                 if (IsGameOver)
                 {
@@ -86,6 +90,7 @@ namespace GameplayContext
                 }
 
                 CreateNewFallingTile();
+                SpeedLevel++;
                 NewTile?.Invoke(this, new TileEventArgs(FallingTile));
             }
             else

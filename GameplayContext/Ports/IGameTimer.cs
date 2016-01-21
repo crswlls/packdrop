@@ -7,6 +7,7 @@ namespace GameplayContext.Ports
         event EventHandler Tick;
         void Start(int gameSpeed);
         void Stop();
+        void UpdateInterval(int newSpeed);
     }
 }
 

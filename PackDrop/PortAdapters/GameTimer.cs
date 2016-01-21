@@ -20,6 +20,11 @@ namespace PackDrop.PortAdapters
             _timer.Start();
         }
 
+        public void UpdateInterval(int newSpeed)
+        {
+            _timer.Interval = newSpeed;
+        }
+
         public void Stop()
         {
             _timer.Stop();

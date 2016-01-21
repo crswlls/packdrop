@@ -26,6 +26,9 @@ namespace PackDrop
             }
         }
 
+        public TextView ScoreValue { get; set;}
+        public Binding ScoreBinding { get; set;}
+
         protected override void OnCreate (Bundle savedInstanceState)
         {
             base.OnCreate (savedInstanceState);
@@ -33,6 +36,8 @@ namespace PackDrop
             FindViewById<Button>(Resource.Id.rightBtn).SetCommand ("Click", Vm.MoveRightCommand);
             FindViewById<Button>(Resource.Id.leftBtn).SetCommand ("Click", Vm.MoveLeftCommand);
             FindViewById<Button>(Resource.Id.downBtn).SetCommand ("Click", Vm.DropCommand);
+            ScoreValue = FindViewById<TextView>(Resource.Id.scoreValue);
+            ScoreBinding = this.SetBinding(() => Vm.Score, () => ScoreValue.Text);
 
             SetupListView(Resource.Id.game1, Vm.Column1);
             SetupListView(Resource.Id.game2, Vm.Column2);
