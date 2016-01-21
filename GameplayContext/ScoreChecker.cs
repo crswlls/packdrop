@@ -51,7 +51,7 @@ namespace GameplayContext
             // Check whether we finished on a match
             if (lastPopulatedColumn >= 0)
             {
-                score += CheckForMatch(lastPopulatedColumn, columns[lastPopulatedColumn].Count - 1, columns, numberVerticalItemsInSeries, coordsToRemove, lastPopulatedColumn, true);
+                score += CheckForMatch(lastPopulatedColumn, columns[lastPopulatedColumn].Count, columns, numberVerticalItemsInSeries, coordsToRemove, lastPopulatedColumn, true);
             }
 
             return score;
