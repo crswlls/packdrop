@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Practices.ServiceLocation;
+﻿using Microsoft.Practices.ServiceLocation;
 using GalaSoft.MvvmLight.Ioc;
 
 namespace ViewModels
@@ -30,6 +29,14 @@ namespace ViewModels
             }
         }
 
+        public GameOverViewModel GameOverVm
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<GameOverViewModel>();
+            }
+        }
+
         static ViewModelLocator()
         {
             Reset();
@@ -41,6 +48,7 @@ namespace ViewModels
             SimpleIoc.Default.Register<MainViewModel> ();
             SimpleIoc.Default.Register<InGameViewModel> ();
             SimpleIoc.Default.Register<ArtworkPreviewViewModel> ();
+            SimpleIoc.Default.Register<GameOverViewModel> ();
         }
     }
 }

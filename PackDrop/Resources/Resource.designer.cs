@@ -104,11 +104,11 @@ namespace PackDrop
 			// aapt resource value: 0x7f060014
 			public const int game9 = 2131099668;
 			
-			// aapt resource value: 0x7f060006
-			public const int gameArea = 2131099654;
+			// aapt resource value: 0x7f060008
+			public const int gameArea = 2131099656;
 			
-			// aapt resource value: 0x7f060005
-			public const int gameLayout = 2131099653;
+			// aapt resource value: 0x7f060007
+			public const int gameLayout = 2131099655;
 			
 			// aapt resource value: 0x7f060003
 			public const int gridview = 2131099651;
@@ -128,11 +128,11 @@ namespace PackDrop
 			// aapt resource value: 0x7f06000b
 			public const int rightBtn = 2131099659;
 			
-			// aapt resource value: 0x7f060007
-			public const int scoreLbl = 2131099655;
+			// aapt resource value: 0x7f060005
+			public const int scoreLbl = 2131099653;
 			
-			// aapt resource value: 0x7f060008
-			public const int scoreValue = 2131099656;
+			// aapt resource value: 0x7f060006
+			public const int scoreValue = 2131099654;
 			
 			// aapt resource value: 0x7f060001
 			public const int searchBtn = 2131099649;
