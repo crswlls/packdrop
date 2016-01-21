@@ -13,7 +13,7 @@ using System.Collections.ObjectModel;
 
 namespace PackDrop
 {
-    [Activity (Label = "InGameActivity")]            
+    [Activity (Label = "PackDrop", Icon = "@drawable/icon")]            
     public class InGameActivity : Activity
     {
         private ImageView _fallingImage;

@@ -14,7 +14,7 @@ using ViewModels;
 
 namespace PackDrop
 {
-    [Activity (Label = "ArtworkPreviewActivity")]            
+    [Activity (Label = "PackDrop", Icon = "@drawable/icon")]            
     public class ArtworkPreviewActivity : Activity
     {
         private ArtworkPreviewViewModel Vm
