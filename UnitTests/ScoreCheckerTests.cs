@@ -191,6 +191,58 @@ namespace UnitTests
             Assert.AreEqual(1, column5.Count);
         }
 
+        /*
+                HORIZONTAL MATCH TESTS
+         */
+
+
+        [Test]
+        public void HorizontalMatchIsAScore()
+        {
+            // Arrange
+            var column1 = new ObservableCollection<Tile>() { Tile("1") };
+            var column2 = new ObservableCollection<Tile>(){  Tile("1") };
+            var column3 = new ObservableCollection<Tile>(){  Tile("1")};
+            var column4 = new ObservableCollection<Tile>();
+            var column5 = new ObservableCollection<Tile>();
+            var columns = new List<ObservableCollection<Tile>>() { column1, column2, column3, column4, column5 };
+
+            // Act
+            var score = new ScoreChecker().CheckScoreAndUpdate(columns);
+
+            // Assert
+            Assert.AreEqual(100, score);
+            Assert.AreEqual(0, column1.Count);
+            Assert.AreEqual(0, column2.Count);
+            Assert.AreEqual(0, column3.Count);
+            Assert.AreEqual(0, column4.Count);
+            Assert.AreEqual(0, column5.Count);
+        }
+
+        [Test]
+        public void HorizontalMatchAtEndIsAScore()
+        {
+            // Arrange
+            var column1 = new ObservableCollection<Tile>();
+            var column2 = new ObservableCollection<Tile>();
+            var column3 = new ObservableCollection<Tile>(){  Tile("1")};
+            var column4 = new ObservableCollection<Tile>(){  Tile("1") };
+            var column5 = new ObservableCollection<Tile>() { Tile("1") };
+            var columns = new List<ObservableCollection<Tile>>() { column1, column2, column3, column4, column5 };
+
+            // Act
+            var score = new ScoreChecker().CheckScoreAndUpdate(columns);
+
+            // Assert
+            Assert.AreEqual(100, score);
+            Assert.AreEqual(0, column1.Count);
+            Assert.AreEqual(0, column2.Count);
+            Assert.AreEqual(0, column3.Count);
+            Assert.AreEqual(0, column4.Count);
+            Assert.AreEqual(0, column5.Count);
+        }
+
+
         public Tile Tile(string imageId)
         {
             return new Tile { ImageId = imageId };
