@@ -19,6 +19,7 @@ namespace GameplayContext
         event EventHandler<TileEventArgs> NewTile;
         event EventHandler<TileEventArgs> TileFell;
         event EventHandler<TileEventArgs> TileStopped;
+        event EventHandler<ScoreArgs> Scored;
     }
 }
 

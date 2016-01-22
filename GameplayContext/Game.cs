@@ -19,6 +19,7 @@ namespace GameplayContext
         public event EventHandler<TileEventArgs> TileFell;
         public event EventHandler<TileEventArgs> TileStopped;
         public event EventHandler<TileEventArgs> TileMoved;
+        public event EventHandler<ScoreArgs> Scored;
         public event EventHandler GameOver;
 
         /// <summary>
@@ -83,10 +84,21 @@ namespace GameplayContext
                 if (FallingTile != null)
                 {
                     FallingTile.IsFalling = false;
-                    _columns[FallingTile.XPos].Insert(0, FallingTile);
+                    _columns[FallingTile.XPos].Add(FallingTile);
                 }
 
-                Score += new ScoreChecker().CheckScoreAndUpdate(_columns);
+                var lastScore = 0;
+                var scoreChecker = new ScoreChecker();
+                do
+                {
+                    lastScore = scoreChecker.CheckScoreAndUpdate(_columns);
+                    Score += lastScore;
+                    if (lastScore > 0)
+                    {
+                        Scored?.Invoke(this, new ScoreArgs(scoreChecker.RemovedItems));
+                    }
+                }
+                while (lastScore > 0);
 
                 if (IsGameOver)
                 {

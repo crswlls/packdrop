@@ -38,6 +38,7 @@
     <Compile Include="TileEventArgs.cs" />
     <Compile Include="ScoreChecker.cs" />
     <Compile Include="Coordinate.cs" />
+    <Compile Include="ScoreArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

@@ -312,6 +312,60 @@ namespace UnitTests
             Assert.AreEqual(3, column5.Count);
         }
 
+        [Test]
+        public void MisalignedRowShouldNotBeAMatch()
+        {
+            // Arrange
+            var column1 = new ObservableCollection<Tile>();
+            var column2 = new ObservableCollection<Tile>();
+            var column3 = new ObservableCollection<Tile>(){  Tile("1") };
+            var column4 = new ObservableCollection<Tile>(){  Tile("1") };
+            var column5 = new ObservableCollection<Tile>() { Tile("5"), Tile("1") };
+            var column6 = new ObservableCollection<Tile>();
+            var column7 = new ObservableCollection<Tile>();
+            var columns = new List<ObservableCollection<Tile>>() { column1, column2, column3, column4, column5, column6, column7 };
+
+            // Act
+            var score = new ScoreChecker().CheckScoreAndUpdate(columns);
+
+            // Assert
+            Assert.AreEqual(0, score);
+            Assert.AreEqual(0, column1.Count);
+            Assert.AreEqual(0, column2.Count);
+            Assert.AreEqual(1, column3.Count);
+            Assert.AreEqual(1, column4.Count);
+            Assert.AreEqual(2, column5.Count);
+            Assert.AreEqual(0, column6.Count);
+            Assert.AreEqual(0, column7.Count);
+        }
+
+        [Test]
+        public void MatchCanBeMadeOnLowerRow()
+        {
+            // Arrange
+            var column1 = new ObservableCollection<Tile>();
+            var column2 = new ObservableCollection<Tile>();
+            var column3 = new ObservableCollection<Tile>(){  Tile("1") };
+            var column4 = new ObservableCollection<Tile>(){  Tile("1") };
+            var column5 = new ObservableCollection<Tile>() { Tile("1"), Tile("5") };
+            var column6 = new ObservableCollection<Tile>();
+            var column7 = new ObservableCollection<Tile>();
+            var columns = new List<ObservableCollection<Tile>>() { column1, column2, column3, column4, column5, column6, column7 };
+
+            // Act
+            var score = new ScoreChecker().CheckScoreAndUpdate(columns);
+
+            // Assert
+            Assert.AreEqual(100, score);
+            Assert.AreEqual(0, column1.Count);
+            Assert.AreEqual(0, column2.Count);
+            Assert.AreEqual(0, column3.Count);
+            Assert.AreEqual(0, column4.Count);
+            Assert.AreEqual(1, column5.Count);
+            Assert.AreEqual(0, column6.Count);
+            Assert.AreEqual(0, column7.Count);
+        }
+
 
         public Tile Tile(string imageId)
         {
