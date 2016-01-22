@@ -21,7 +21,7 @@ namespace ArtworkSelectionContext
                 var chosenArtist = artists.FirstOrDefault(x => x.Name.Equals(searchTerm, StringComparison.CurrentCultureIgnoreCase));
                 chosenArtist = chosenArtist ?? artists[0];
 
-                var products = await musicClient.GetArtistProductsAsync(chosenArtist.Id, itemsPerPage: 50);
+                var products = await musicClient.GetArtistProductsAsync(chosenArtist.Id, MixRadio.Types.Category.Album, MixRadio.Types.OrderBy.Relevance, itemsPerPage: 50);
                 if (products.Succeeded && products.Count >= numberItems)
                 {
                     _artwork = products.Result.Select(x => x.Thumb320Uri).OrderBy(x => Guid.NewGuid()).Take(numberItems).ToList();
