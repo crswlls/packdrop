@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using Android.App;
-using Android.Graphics;
+﻿using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
-using Java.Net;
 using SharedKernel;
 using ViewModels;
 using System.Collections.ObjectModel;
@@ -94,6 +90,7 @@ namespace PackDrop
         private void NewTile()
         {
             RunOnUiThread (() =>  {
+                // HACK: RANDOM OFF-SCREEN VALUE
                 _fallingImage.SetY (-150);
                 _fallingImage.SetImageBitmap (BitmapCache.Get (Vm.FallingTileImage));
             });

@@ -92,7 +92,7 @@ namespace ViewModels
             _timer = timer;
             _dispatcher = dispatcher;
             _requester = requester;
-            _dropStep = _gameDimensions.GameHeight / GameplayContext.Game.NumberStepsToDrop;
+            _dropStep = _gameDimensions.GameHeight / Game.NumberStepsToDrop;
         }
 
         public string Score
@@ -212,10 +212,7 @@ namespace ViewModels
 
         private void OnGameTimerFired(object sender, EventArgs e)
         {
-            _dispatcher.RunOnUiThread(() => 
-            {
-                _game.Continue();
-            });
+            _dispatcher.RunOnUiThread(() => _game.Continue());
         }
 
         private void OnTileFell(object sender, TileEventArgs e)

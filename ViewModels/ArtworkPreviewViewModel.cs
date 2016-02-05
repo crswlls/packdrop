@@ -1,6 +1,5 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using ArtworkSelectionContext;
 using GalaSoft.MvvmLight.Views;

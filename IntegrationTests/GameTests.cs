@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using ViewModels;
 using System.Threading.Tasks;
-using System.Threading;
 using System;
 
 namespace IntegrationTests

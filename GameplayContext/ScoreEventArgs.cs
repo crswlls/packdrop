@@ -12,5 +12,4 @@ namespace GameplayContext
             Coords = coords;
         }
 	}
-
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using GameplayContext;
+﻿using GameplayContext;
 using ViewModels;
 
 namespace IntegrationTests
@@ -14,8 +13,10 @@ namespace IntegrationTests
             }
         }
 
-        public int GameWidth {
-            get {
+        public int GameWidth
+        {
+            get
+            {
                 return InGameViewModel.NumberColumns;
             }
         }
