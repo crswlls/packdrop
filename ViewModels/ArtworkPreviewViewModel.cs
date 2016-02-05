@@ -52,9 +52,10 @@ namespace ViewModels
                 foreach (var imageUri in _requester.Artwork)
                 {
                     ImageUris.Add(imageUri);
-                    _haveImages = true;
-                    GoToGameCommand.RaiseCanExecuteChanged();
                 }
+
+                _haveImages = true;
+                GoToGameCommand.RaiseCanExecuteChanged();
             }
         }
     }

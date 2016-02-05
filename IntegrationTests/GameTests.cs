@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using ViewModels;
 using System.Threading.Tasks;
+using System.Threading;
+using System;
 
 namespace IntegrationTests
 {
@@ -18,8 +20,7 @@ namespace IntegrationTests
         public async Task WhenIStartPlayingISeeArtworkFalling()
         {
             // GIVEN: I have started playing
-            await SetupHelper.Locator.ArtworkPreviewVm.InitAsync();
-            SetupHelper.Locator.InGameVm.Initialise();
+            await InitGameAsync();
 
             // WHEN: Time ticks by
             for (int i = 0; i < Game.NumberStepsToDrop; i++)
@@ -35,7 +36,7 @@ namespace IntegrationTests
         public async Task NewArtworkFallsWhenCurrentReachesTheBottom()
         {
             // GIVEN: Artwork is falling
-            await SetupHelper.Locator.ArtworkPreviewVm.InitAsync();
+            await InitGameAsync();
             var numberNewTiles = 0;
             SetupHelper.Locator.InGameVm.PropertyChanged += (sender, args) => 
             {
@@ -44,7 +45,6 @@ namespace IntegrationTests
                     numberNewTiles++;
                 }
             };
-            SetupHelper.Locator.InGameVm.Initialise();
 
             // WHEN: The artwork reaches the lowest level
             for (int i = 0; i < Game.NumberStepsToDrop; i++)
@@ -65,8 +65,7 @@ namespace IntegrationTests
         public async Task GameEndsWhenThereIsNoRoomForNewArtwork()
         {
             // GIVEN: I am playing the game
-            await SetupHelper.Locator.ArtworkPreviewVm.InitAsync();
-            SetupHelper.Locator.InGameVm.Initialise();
+            await InitGameAsync();
 
             // WHEN: There is no room for new artwork
             for (int i = 0; i <= Game.NumberStepsToDrop; i++)
@@ -83,8 +82,7 @@ namespace IntegrationTests
         public async Task IfIMoveRightThenTheNextColumnIsPopulated()
         {
             // GIVEN: I am playing the game
-            await SetupHelper.Locator.ArtworkPreviewVm.InitAsync();
-            SetupHelper.Locator.InGameVm.Initialise();
+            await InitGameAsync();
 
             // WHEN: I move right
             SetupHelper.Locator.InGameVm.MoveRightCommand.Execute(null);
@@ -103,8 +101,7 @@ namespace IntegrationTests
         public async Task IfIMoveLeftThenThePreviousColumnIsPopulated()
         {
             // GIVEN: I am playing the game
-            await SetupHelper.Locator.ArtworkPreviewVm.InitAsync();
-            SetupHelper.Locator.InGameVm.Initialise();
+            await InitGameAsync();
 
             // WHEN: I move left
             SetupHelper.Locator.InGameVm.MoveLeftCommand.Execute(null);
@@ -123,8 +120,7 @@ namespace IntegrationTests
         public async Task IfIPressDropThenTheFallingArtworkDrops()
         {
             // GIVEN: I am playing the game
-            await SetupHelper.Locator.ArtworkPreviewVm.InitAsync();
-            SetupHelper.Locator.InGameVm.Initialise();
+            await InitGameAsync();
 
             // WHEN: I move left
             SetupHelper.Locator.InGameVm.DropCommand.Execute(null);
@@ -132,6 +128,22 @@ namespace IntegrationTests
             // Then: The Artwork falls immediately
             SetupHelper.GameTimer.DoTick();
             Assert.AreEqual(1, SetupHelper.Locator.InGameVm.Column5.Count);
+        }
+
+        private static Task InitGameAsync()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            Task.Factory.StartNew(() => 
+            {
+                SetupHelper.Locator.ArtworkPreviewVm.SearchCommand.Execute ("u2");
+                SetupHelper.Locator.ArtworkPreviewVm.GoToGameCommand.CanExecuteChanged += (s, e) =>
+                {
+                    SetupHelper.Locator.InGameVm.Initialise ();
+                    tcs.SetResult(true);
+                };
+            });
+
+            return tcs.Task;
         }
     }
 }
