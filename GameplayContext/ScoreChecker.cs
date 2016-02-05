@@ -8,7 +8,7 @@ namespace GameplayContext
 {
     public class ScoreChecker
     {
-        private List<Coordinate> _coordsToRemove = new List<Coordinate>();
+        private readonly List<Coordinate> _coordsToRemove = new List<Coordinate>();
 
         public List<Coordinate> RemovedItems 
         {
@@ -20,25 +20,26 @@ namespace GameplayContext
 
         public int CheckScoreAndUpdate(List<ObservableCollection<Tile>> columns)
         {
-            var score = 0;
-            _coordsToRemove.Clear();
-            score += CheckVertically(columns);
-            DoRemove(columns);
-
+            var score = DoCheck(columns, CheckVertically);
             if (score == 0)
             {
-                _coordsToRemove.Clear();
-                score += CheckHorizontally(columns);
-                DoRemove(columns);
+                score = DoCheck(columns, CheckHorizontally);
             }
 
+            return score;
+        }
+
+        private int DoCheck(List<ObservableCollection<Tile>> columns, Func<List<ObservableCollection<Tile>>, int> checker)
+        {
+            _coordsToRemove.Clear();
+            var score = checker(columns);
+            DoRemove(columns);
             return score;
         }
 
         private int CheckVertically(List<ObservableCollection<Tile>> columns)
         {
             var score = 0;
-            // Check vertically
             var numberVerticalItemsInSeries = 1;
             string lastItemChecked = null;
 
@@ -80,7 +81,6 @@ namespace GameplayContext
         private int CheckHorizontally(List<ObservableCollection<Tile>> columns)
         {
             var score = 0;
-            // Check vertically
             var numberHorizontalItemsInSeries = 1;
             string lastItemChecked = null;
 
