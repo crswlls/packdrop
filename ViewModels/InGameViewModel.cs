@@ -212,7 +212,7 @@ namespace ViewModels
 
         private void OnGameTimerFired(object sender, EventArgs e)
         {
-            _dispatcher.RunOnUiThread(() => _game.Continue());
+            _dispatcher.RunOnUiThread(_game.Continue);
         }
 
         private void OnTileFell(object sender, TileEventArgs e)

@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-
+﻿using System;
 using System.Threading;
 using Android.App;
 using Android.Graphics;
@@ -34,7 +31,6 @@ namespace PackDrop
 
             // Create your application here
             SetContentView(Resource.Layout.ArtworkPreview);
-            //// await Vm.InitAsync();
 
             FindViewById<GridView>(Resource.Id.gridview).Adapter = Vm.ImageUris.GetAdapter(GetArtworkView);
             var btn = FindViewById<Button>(Resource.Id.Continue);
