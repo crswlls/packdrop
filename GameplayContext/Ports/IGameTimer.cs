@@ -10,4 +10,3 @@ namespace GameplayContext.Ports
         void UpdateInterval(int newSpeed);
     }
 }
-

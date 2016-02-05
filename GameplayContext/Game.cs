@@ -19,7 +19,7 @@ namespace GameplayContext
         public event EventHandler<TileEventArgs> TileFell;
         public event EventHandler<TileEventArgs> TileStopped;
         public event EventHandler<TileEventArgs> TileMoved;
-        public event EventHandler<ScoreArgs> Scored;
+        public event EventHandler<ScoreEventArgs> Scored;
         public event EventHandler GameOver;
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace GameplayContext
                     Score += lastScore;
                     if (lastScore > 0)
                     {
-                        Scored?.Invoke(this, new ScoreArgs(scoreChecker.RemovedItems));
+                        Scored?.Invoke(this, new ScoreEventArgs(scoreChecker.RemovedItems));
                     }
                 }
                 while (lastScore > 0);

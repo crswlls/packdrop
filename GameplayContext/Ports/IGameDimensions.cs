@@ -8,4 +8,3 @@ namespace GameplayContext
         int GameWidth { get; }
     }
 }
-

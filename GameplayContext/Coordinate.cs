@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GameplayContext
+﻿namespace GameplayContext
 {
     public class Coordinate
     {
@@ -14,4 +12,3 @@ namespace GameplayContext
         }
     }
 }
-

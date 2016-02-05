@@ -190,7 +190,7 @@ namespace ViewModels
             _game.Scored += OnScored;
         }
 
-        private void OnScored (object sender, ScoreArgs e)
+        private void OnScored (object sender, ScoreEventArgs e)
         {
             foreach (var coord in e.Coords)
             {

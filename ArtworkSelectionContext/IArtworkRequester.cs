@@ -1,8 +1,6 @@
 using System;
-using MixRadio;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ArtworkSelectionContext
 {
