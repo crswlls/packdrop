@@ -72,38 +72,9 @@ namespace GameplayContext
             return score;
         }
 
-        private void AddCoordsToRemove(int xIndex, int yIndex, List<ObservableCollection<Tile>> columns, int numberVerticalItemsInSeries, int lastPopulatedColumn, bool isVertical)
-        {
-            var matchFinishedOnPreviousColumn = yIndex == 0;
-            var columnToLookAt = matchFinishedOnPreviousColumn ? lastPopulatedColumn : xIndex;
-            var xIndexOfLastMatch = matchFinishedOnPreviousColumn ? columns[columnToLookAt].Count - 1 : yIndex - 1;
-            for (int a = xIndexOfLastMatch; a >= 0 && a > (xIndexOfLastMatch - numberVerticalItemsInSeries); a--)
-            {
-                if (isVertical)
-                {
-                    _coordsToRemove.Add(new Coordinate(columnToLookAt, a));
-                }
-                else
-                {
-                    _coordsToRemove.Add(new Coordinate(a, columnToLookAt));
-                }
-            }
-        }
-
         private int CalculateScore (int numberHorizontalItemsInSeries)
         {
             return 100 + ((numberHorizontalItemsInSeries - 3) * 150);
-        }
-
-        private int CheckForMatch(int xIndex, int yIndex, List<ObservableCollection<Tile>> columns, int numberVerticalItemsInSeries, int lastPopulatedColumn, bool isVertical)
-        {
-            if (numberVerticalItemsInSeries > 2) {
-                // We just finished finding a match
-                AddCoordsToRemove (xIndex, yIndex, columns, numberVerticalItemsInSeries, lastPopulatedColumn, isVertical);
-                return CalculateScore (numberVerticalItemsInSeries);
-            }
-
-            return 0;
         }
 
         private int CheckHorizontally(List<ObservableCollection<Tile>> columns)
@@ -122,7 +93,7 @@ namespace GameplayContext
                     if (i >= columns[j].Count)
                     {
                         // Column not populated
-                        score += CheckForMatchH(j, i, columns, numberHorizontalItemsInSeries, lastPopulatedRow, false);
+                        score += CheckForMatch(j, i, columns, numberHorizontalItemsInSeries, lastPopulatedRow, false);
                         lastItemChecked = null;
                         numberHorizontalItemsInSeries = 1;
                     }
@@ -135,7 +106,7 @@ namespace GameplayContext
                     else
                     {
                         // New series starting
-                        score += CheckForMatchH(j, i, columns, numberHorizontalItemsInSeries, lastPopulatedRow, false);
+                        score += CheckForMatch(j, i, columns, numberHorizontalItemsInSeries, lastPopulatedRow, false);
                         lastItemChecked = columns[j][i].ImageId;
                         numberHorizontalItemsInSeries = 1;
                         lastPopulatedRow = i;
@@ -146,35 +117,44 @@ namespace GameplayContext
             // Check whether we finished on a match
             if (lastPopulatedRow >= 0)
             {
-                score += CheckForMatchH(columns.Count, lastPopulatedRow, columns, numberHorizontalItemsInSeries, lastPopulatedRow, false);
+                score += CheckForMatch(columns.Count, lastPopulatedRow, columns, numberHorizontalItemsInSeries, lastPopulatedRow, false);
             }
 
             return score;
         }
 
-        private int CheckForMatchH(int xIndex, int yIndex, List<ObservableCollection<Tile>> columns, int numberVerticalItemsInSeries, int lastPopulatedColumn, bool isVertical)
+        private int CheckForMatch(int xIndex, int yIndex, List<ObservableCollection<Tile>> columns, int numberVerticalItemsInSeries, int lastPopulatedColumn, bool isVertical)
         {
             if (numberVerticalItemsInSeries > 2) {
                 // We just finished finding a match
-                AddCoordsToRemoveH(xIndex, yIndex, columns, numberVerticalItemsInSeries, lastPopulatedColumn, isVertical);
+                AddCoordsToRemove (xIndex, yIndex, columns, numberVerticalItemsInSeries, lastPopulatedColumn, isVertical);
                 return CalculateScore (numberVerticalItemsInSeries);
             }
 
             return 0;
         }
 
-        private void AddCoordsToRemoveH(int xIndex, int rowIndex, List<ObservableCollection<Tile>> columns, int numberVerticalItemsInSeries, int lastPopulatedRow, bool isVertical)
+        private void AddCoordsToRemoveVertical (int xIndex, int rowIndex, List<ObservableCollection<Tile>> columns, int numberVerticalItemsInSeries, int lastPopulatedRow)
+        {
+            var matchFinishedOnPreviousColumn = rowIndex == 0;
+            var columnToLookAt = matchFinishedOnPreviousColumn ? lastPopulatedRow : xIndex;
+            var xIndexOfLastMatch = matchFinishedOnPreviousColumn ? columns [columnToLookAt].Count - 1 : rowIndex - 1;
+            for (int a = xIndexOfLastMatch; a >= 0 && a > (xIndexOfLastMatch - numberVerticalItemsInSeries); a--) {
+                _coordsToRemove.Add (new Coordinate (columnToLookAt, a));
+            }
+        }
+
+        private void AddCoordsToRemoveHorizontal(int xIndex, int rowIndex, List<ObservableCollection<Tile>> columns, int numberVerticalItemsInSeries, int lastPopulatedRow)
         {
             var matchFinishedOnPreviousRow = xIndex == 0;
             var rowToLookAt = matchFinishedOnPreviousRow ? lastPopulatedRow : rowIndex;
             var xIndexOfLastMatch = xIndex - 1;
-
-            if (matchFinishedOnPreviousRow)
+            if (matchFinishedOnPreviousRow) 
             {
                 // work out first column that is populated
                 for (int i = columns.Count - 1; i >= 0; i--)
                 {
-                    if (columns[i].Count > rowToLookAt)
+                    if (columns [i].Count > rowToLookAt)
                     {
                         xIndexOfLastMatch = i;
                         break;
@@ -184,14 +164,19 @@ namespace GameplayContext
 
             for (int a = xIndexOfLastMatch; a >= 0 && a > (xIndexOfLastMatch - numberVerticalItemsInSeries); a--)
             {
-                if (isVertical)
-                {
-                    _coordsToRemove.Add(new Coordinate(rowToLookAt, a));
-                }
-                else
-                {
-                    _coordsToRemove.Add(new Coordinate(a, rowToLookAt));
-                }
+                _coordsToRemove.Add (new Coordinate (a, rowToLookAt));
+            }
+        }
+
+        private void AddCoordsToRemove(int xIndex, int rowIndex, List<ObservableCollection<Tile>> columns, int numberVerticalItemsInSeries, int lastPopulatedRow, bool isVertical)
+        {
+            if (isVertical)
+            {
+                AddCoordsToRemoveVertical(xIndex, rowIndex, columns, numberVerticalItemsInSeries, lastPopulatedRow);
+            }
+            else
+            {
+                AddCoordsToRemoveHorizontal(xIndex, rowIndex, columns, numberVerticalItemsInSeries, lastPopulatedRow);
             }
         }
 
