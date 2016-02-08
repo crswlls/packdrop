@@ -25,8 +25,8 @@ namespace UnitTests
             // Assert
             Assert.AreEqual(0, score);
             Assert.AreEqual(0, column1.Count);
-            Assert.AreEqual(0, column3.Count);
             Assert.AreEqual(0, column2.Count);
+            Assert.AreEqual(0, column3.Count);
         }
 
         [Test]
@@ -44,8 +44,8 @@ namespace UnitTests
             // Assert
             Assert.AreEqual(100, score);
             Assert.AreEqual(4, column1.Count);
-            Assert.AreEqual(1, column3.Count);
             Assert.AreEqual(2, column2.Count);
+            Assert.AreEqual(1, column3.Count);
             Assert.AreEqual("1", column2[0].ImageId);
             Assert.AreEqual("5", column2[1].ImageId);
         }
@@ -65,8 +65,8 @@ namespace UnitTests
             // Assert
             Assert.AreEqual(400, score);
             Assert.AreEqual(4, column1.Count);
-            Assert.AreEqual(1, column3.Count);
             Assert.AreEqual(0, column2.Count);
+            Assert.AreEqual(1, column3.Count);
         }
 
         [Test]
