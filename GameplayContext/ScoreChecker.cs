@@ -47,6 +47,7 @@ namespace GameplayContext
 
             for (int i = 0; i < columns.Count;i++)
             {
+                numberVerticalItemsInSeries = 1;
                 for (int j = 0; j < columns[i].Count;j++)
                 {
                     if (j != 0 && columns[i][j].ImageId == lastItemChecked)
@@ -59,6 +60,10 @@ namespace GameplayContext
                             }
                             score += CalculateScore (numberVerticalItemsInSeries);
                         }
+                    }
+                    else
+                    {
+                        numberVerticalItemsInSeries = 1;
                     }
 
                     lastItemChecked = columns[i][j].ImageId;

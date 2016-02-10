@@ -33,8 +33,8 @@ namespace UnitTests
         public void ThreeInAColumnIsAMatch()
         {
             // Arrange
-            var column1 = new ObservableCollection<Tile>() { Tile("2"), Tile("3"), Tile("4"), Tile("5") };
-            var column2 = new ObservableCollection<Tile>() { Tile("1"), Tile("2"), Tile("2"), Tile("2"), Tile("5") };
+            var column1 = new ObservableCollection<Tile>() { Tile("3"), Tile("3"), Tile("4"), Tile("5") };
+            var column2 = new ObservableCollection<Tile>() { Tile("1"), Tile("1"), Tile("2"), Tile("2"), Tile("2"), Tile("5") };
             var column3 = new ObservableCollection<Tile>() { Tile("1") };
             var columns = new List<ObservableCollection<Tile>>() { column1, column2, column3 };
 
@@ -44,10 +44,11 @@ namespace UnitTests
             // Assert
             Assert.AreEqual(100, score);
             Assert.AreEqual(4, column1.Count);
-            Assert.AreEqual(2, column2.Count);
+            Assert.AreEqual(3, column2.Count);
             Assert.AreEqual(1, column3.Count);
             Assert.AreEqual("1", column2[0].ImageId);
-            Assert.AreEqual("5", column2[1].ImageId);
+            Assert.AreEqual("1", column2[1].ImageId);
+            Assert.AreEqual("5", column2[2].ImageId);
         }
 
         [Test]
