@@ -8,6 +8,7 @@ namespace GameplayContext
 {
     public class ScoreChecker
     {
+        private const int MinNumberForMatch = 3;
         private readonly List<Coordinate> _coordsToRemove = new List<Coordinate>();
 
         public List<Coordinate> RemovedItems 
@@ -50,7 +51,7 @@ namespace GameplayContext
                     if (j != 0 && columns[i][j].ImageId == lastItemChecked)
                     {
                         numberVerticalItemsInSeries++;
-                        if (numberVerticalItemsInSeries > 2 && (columns[i].Count == j+1 || columns[i][j+1].ImageId != lastItemChecked))
+                        if (numberVerticalItemsInSeries >= MinNumberForMatch && (columns[i].Count == j+1 || columns[i][j+1].ImageId != lastItemChecked))
                         {
                             // We just finished finding a match
                             for (int k = j; k >= 0 && k > (j - numberVerticalItemsInSeries); k--)
@@ -91,7 +92,7 @@ namespace GameplayContext
                     else if (columns[j][i].ImageId == lastItemChecked)
                     {
                         numberHorizontalItemsInSeries++;
-                        if (numberHorizontalItemsInSeries > 2 && ((j + 1 >= columns.Count || i >= columns[j + 1].Count) || columns[j + 1][i].ImageId != lastItemChecked))
+                        if (numberHorizontalItemsInSeries >= MinNumberForMatch && ((j + 1 >= columns.Count || i >= columns[j + 1].Count) || columns[j + 1][i].ImageId != lastItemChecked))
                         {
                             // Finished finding a match
                             for (int a = j; a >= 0 && a > (j - numberHorizontalItemsInSeries); a--)

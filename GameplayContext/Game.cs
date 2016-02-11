@@ -14,7 +14,6 @@ namespace GameplayContext
         private List<ObservableCollection<Tile>> _columns;
         private List<Uri> _images = new List<Uri>();
 
-        public event EventHandler GameChanged;
         public event EventHandler<TileEventArgs> NewTile;
         public event EventHandler<TileEventArgs> TileFell;
         public event EventHandler<TileEventArgs> TileStopped;
