@@ -39,11 +39,8 @@ namespace GameplayContext
 
         private int CheckVertically(List<ObservableCollection<Tile>> columns)
         {
-            var score = 0;
             var numberVerticalItemsInSeries = 1;
             string lastItemChecked = null;
-
-            var lastPopulatedColumn = -1;
 
             for (int i = 0; i < columns.Count;i++)
             {
@@ -53,12 +50,15 @@ namespace GameplayContext
                     if (j != 0 && columns[i][j].ImageId == lastItemChecked)
                     {
                         numberVerticalItemsInSeries++;
-                        if (numberVerticalItemsInSeries > 2 && (columns[i].Count == j+1 || columns[i][j+1].ImageId != lastItemChecked)) {
+                        if (numberVerticalItemsInSeries > 2 && (columns[i].Count == j+1 || columns[i][j+1].ImageId != lastItemChecked))
+                        {
                             // We just finished finding a match
-                            for (int k = j; k >= 0 && k > (j - numberVerticalItemsInSeries); k--) {
+                            for (int k = j; k >= 0 && k > (j - numberVerticalItemsInSeries); k--)
+                            {
                                 _coordsToRemove.Add (new Coordinate (i, k));
                             }
-                            score += CalculateScore (numberVerticalItemsInSeries);
+
+                            return CalculateScore (numberVerticalItemsInSeries);
                         }
                     }
                     else
@@ -70,12 +70,7 @@ namespace GameplayContext
                 }
             }
 
-            return score;
-        }
-
-        private int CalculateScore (int numberHorizontalItemsInSeries)
-        {
-            return 100 + ((numberHorizontalItemsInSeries - 3) * 150);
+            return 0;
         }
 
         private int CheckHorizontally(List<ObservableCollection<Tile>> columns)
@@ -121,6 +116,11 @@ namespace GameplayContext
             }
 
             return score;
+        }
+
+        private int CalculateScore (int numberHorizontalItemsInSeries)
+        {
+            return 100 + ((numberHorizontalItemsInSeries - 3) * 150);
         }
 
         private int CheckForMatch(int xIndex, int yIndex, List<ObservableCollection<Tile>> columns, int numberVerticalItemsInSeries, int lastPopulatedColumn, bool isVertical)
