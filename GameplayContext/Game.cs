@@ -86,18 +86,7 @@ namespace GameplayContext
                     _columns[FallingTile.XPos].Add(FallingTile);
                 }
 
-                var lastScore = 0;
-                var scoreChecker = new ScoreChecker();
-                do
-                {
-                    lastScore = scoreChecker.CheckScoreAndUpdate(_columns);
-                    Score += lastScore;
-                    if (lastScore > 0)
-                    {
-                        Scored?.Invoke(this, new ScoreEventArgs(scoreChecker.RemovedItems));
-                    }
-                }
-                while (lastScore > 0);
+                CheckScore();
 
                 if (IsGameOver)
                 {
@@ -114,6 +103,21 @@ namespace GameplayContext
                 FallingTile.YPos++;
                 TileFell?.Invoke(this, new TileEventArgs(FallingTile));
             }
+        }
+
+        private void CheckScore()
+        {
+            var lastScore = 0;
+            var scoreChecker = new ScoreChecker ();
+            do {
+                lastScore = scoreChecker.CheckScoreAndUpdate (_columns);
+                Score += lastScore;
+                if (lastScore > 0)
+                {
+                    Scored.Invoke (this, new ScoreEventArgs (scoreChecker.RemovedItems));
+                }
+            }
+            while (lastScore > 0);
         }
 
         private bool IsNewTileRequired
