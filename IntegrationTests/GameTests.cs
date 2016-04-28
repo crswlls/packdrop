@@ -3,6 +3,7 @@ using NUnit.Framework;
 using ViewModels;
 using System.Threading.Tasks;
 using System;
+using System.Threading;
 
 namespace IntegrationTests
 {
@@ -132,6 +133,8 @@ namespace IntegrationTests
         private static Task InitGameAsync()
         {
             var tcs = new TaskCompletionSource<bool>();
+            var ct = new CancellationTokenSource(5000);
+            ct.Token.Register(() => tcs.TrySetCanceled(), false);
             Task.Factory.StartNew(() => 
             {
                 SetupHelper.Locator.ArtworkPreviewVm.SearchCommand.Execute ("u2");
