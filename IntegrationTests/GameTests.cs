@@ -10,13 +10,7 @@ namespace IntegrationTests
     [TestFixture]
     public class Test
     {
-        [Test]
-        public void Temp()
-        {
-            Assert.AreEqual(1, 1);
-        }
-
-        /*[SetUp]
+        [SetUp]
         public void Setup()
         {
             SetupHelper.InitialiseApp();
@@ -152,6 +146,6 @@ namespace IntegrationTests
             });
 
             return tcs.Task;
-        }*/
+        }
     }
 }
